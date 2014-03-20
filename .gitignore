@@ -1,0 +1,26 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+logs
+description
+tmp
+.history
+dist
+/nbproject
+/.idea
+*.iml
+*.iws
+*.ipr
+/out
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
+.shell_history
+target/
+.gradle/
+build/
