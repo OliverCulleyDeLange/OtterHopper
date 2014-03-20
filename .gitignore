@@ -4,13 +4,11 @@
 *.jar
 *.war
 *.ear
+
 logs
-description
-tmp
-.history
-dist
 /nbproject
 /.idea
+/src/img/not_needed/*
 *.iml
 *.iws
 *.ipr
