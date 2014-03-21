@@ -14,15 +14,11 @@ public class Sprite extends ImageIcon {
     public int height;
     private BufferedImage img;
 
-    public Sprite(BufferedImage i) {
+    public Sprite(BufferedImage i,int w, int h, double s) {
         img = i;
         setImage(img);
-    }
-    public Sprite(BufferedImage i,int w, int h) {
-        img = i;
-        setImage(img);
-        height = h;
-        width = w;
+        height = (int) Math.round(h / s);
+        width = (int) Math.round(w / s);
     }
     public BufferedImage getImg() {
         return img;

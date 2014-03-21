@@ -1,6 +1,5 @@
 package resources;
 
-import javafx.scene.effect.ImageInput;
 
 import java.awt.*;
 import javax.imageio.*;
@@ -29,7 +28,7 @@ public class resources {
     public loadBar lb = new loadBar();
     //Vars
     private int loadPercentageComplete = 0;
-
+    private double scale;
 
     public void loadImage(String imgPath) throws IOException {
         try {
@@ -49,5 +48,11 @@ public class resources {
     }
     public int getLoadPercentageComplete() {
         return loadPercentageComplete;
+    }
+    public void setScale(double s) {
+        scale = s;
+    }
+    public double getScale() {
+        return scale;
     }
 }
