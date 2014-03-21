@@ -7,6 +7,7 @@ import resources.*;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
@@ -37,10 +38,10 @@ public class Game extends JPanel {
             try {
                 r.loadImage(r.imagesToLoad[i]);
                 r.setLoadPercentageComplete((100 / r.imagesToLoad.length) * (i + 1));
-                System.out.println("Loaded: " + r.getLoadPercentageComplete() + "%");
+                //System.out.println("Loaded: " + r.getLoadPercentageComplete() + "%");
                 r.lb.setValue(r.getLoadPercentageComplete());
             } catch (IOException e) {
-                System.out.println(e);
+                //System.out.println(e);
                 return false;
             }
         }
@@ -48,7 +49,7 @@ public class Game extends JPanel {
     }
     public void newGame() {
         r.setScale( r.images.get(1).getHeight() / getHeight());
-        System.out.println("Scale = " + r.getScale());
+        //System.out.println("Scale = " + r.getScale());
         //Initiate Background image
         r.bg = new Sprite(
                 r.images.get(1),
@@ -66,7 +67,7 @@ public class Game extends JPanel {
                 r.images.get(0).getHeight()
         );
         //Sets off game loop
-        System.out.println("Starting Game Loop");
+        //System.out.println("Starting Game Loop");
         startGameLoop();
     }
     public void startGameLoop() {
@@ -125,7 +126,7 @@ public class Game extends JPanel {
             //TODO
            //System.out.println("treeRnd = " + treeRnd);
            if (treeTimer > treeRnd * 100000000) {
-               System.out.println(treeTimer + "(treeTimer) > " + treeRnd + "(treeRnd)");
+               //System.out.println(treeTimer + "(treeTimer) > " + treeRnd + "(treeRnd)");
                 r.trees.add(new Tree(
                        r.images.get(2),
                        getWidth(),
@@ -142,7 +143,7 @@ public class Game extends JPanel {
            }   
            //Add enemies randomly
             if (enemyTimer > enemyRnd * 10000000) {
-                System.out.println(enemyTimer + "(enemyTimer) > " + enemyRnd + "(enemyRnd)");
+                //System.out.println(enemyTimer + "(enemyTimer) > " + enemyRnd + "(enemyRnd)");
                 r.enemies.add(new Enemy(
                         r.images.get(3),
                         getWidth(),
@@ -160,18 +161,41 @@ public class Game extends JPanel {
             }
         }
         
-        //Move trees left slowly
+        //Move trees left slowly & remove if off screen
+        ArrayList<Integer> tmpRemovals = new ArrayList();
         for (Tree tree : r.trees) {
             tree.setPosX(tree.getPosX()-(tree.getSpeed()*delta));
+            if (tree.getPosX() < 0 - tree.width) {
+                tmpRemovals.add(r.trees.indexOf(tree));
+            }
         } 
-        //Move enemies left
+        for (Integer i : tmpRemovals) {
+            r.trees.remove((int) i);
+        }
+        
+        tmpRemovals.clear(); // Clear out removal array
+        
+        //Move enemies left & remove if off screen
         for (Enemy enemy : r.enemies) {
             enemy.setPosX(enemy.getPosX()-(enemy.getSpeed()*delta));
+            if (enemy.getPosX() < 0 - enemy.width) {
+                tmpRemovals.add(r.enemies.indexOf(enemy));
+            }
         }
+        for (Integer i : tmpRemovals) {
+            r.enemies.remove((int) i);
+        }        
         //Update Otter Y pos
         r.player.autoSetPosY(delta);
         //Update Otter animation cycle
         r.player.updateAnimFrame(timeSinceLastLoop);
+        //Player -> enemies collision detection
+        for (Enemy e : r.enemies) {
+            //                int x, int y, int r, int b
+            if (r.player.collides(e.getPosX(), e.getPosY(), e.width, e.height)) {
+                System.out.println("Collision-> " + e);
+            }
+        }
     }
 
     @Override

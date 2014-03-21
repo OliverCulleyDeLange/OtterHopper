@@ -19,6 +19,11 @@ public class Sprite extends ImageIcon {
         height = (int) Math.round(h / s);
         width = (int) Math.round(w / s);
     }
+    //Collision detection
+    public boolean collides(int x, int y, int r, int b) {
+        return !(r <= this.posX || x > this.width || b <= this.posY || y > this.height);
+    }
+    
     public BufferedImage getImg() {
         return img;
     }
