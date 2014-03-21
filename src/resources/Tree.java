@@ -6,15 +6,13 @@ import java.util.Random;
 
 public class Tree extends Sprite {
 
-    public Tree(BufferedImage i,int w, int h) {
-        super(i);
+    public Tree(BufferedImage i,int w, int h, double s, int imgWidth, int imgHeight) {
+        super(i, imgWidth,imgHeight, s);
         Random r = new Random();
-        int max = (int) Math.round(h*0.5);
-        int min = (int) Math.round(h*0.4);
+        int max = (int) Math.round(h*0.4);
+        int min = (int) Math.round(h*0.2);
         this.setPosY(r.nextInt(max-min) + min);
         this.setPosX(w);
-        this.setSpeed(0.75);
-        this.setWidth(150);
-        this.setHeight(200);
+        this.setSpeed(1.5);
     }
 }

@@ -1,12 +1,11 @@
 package resources;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Sprite extends ImageIcon {
 
-    private double speed = 0.5; // 0 = not set | 1 - 99 speed range
+    private double speed = 1; 
     private double posX;
     private double posY;
 
@@ -14,15 +13,11 @@ public class Sprite extends ImageIcon {
     public int height;
     private BufferedImage img;
 
-    public Sprite(BufferedImage i) {
+    public Sprite(BufferedImage i,int w, int h, double s) {
         img = i;
         setImage(img);
-    }
-    public Sprite(BufferedImage i,int w, int h) {
-        img = i;
-        setImage(img);
-        height = h;
-        width = w;
+        height = (int) Math.round(h / s);
+        width = (int) Math.round(w / s);
     }
     public BufferedImage getImg() {
         return img;

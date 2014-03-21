@@ -2,14 +2,16 @@ package otterhopper;
 
 import javax.swing.*;
 import java.awt.*;
+import resources.UserInput;
 
 public class Main {
     static JFrame frame;
     static Game game = new Game();
 
-    static public int height = 540;
-    static public int width = 540;
-
+    static public int height = 1020/2;
+    static public int width = 1920/2;
+    static public UserInput k;
+    
     public static void main(String[] args) {
         //Frame setup
         System.out.println("FrameSetup Start");
@@ -35,6 +37,14 @@ public class Main {
             System.out.println("LoadResources Finish");
             //Sets up and starts game
             System.out.println("NewGame Start");
+            
+            k  = new UserInput(game);
+            if (!frame.isFocusable()) {
+                frame.setFocusable(true);
+            }
+            frame.addKeyListener(k);
+            frame.setFocusTraversalKeysEnabled(false);
+
             game.newGame();
             System.out.println("NewGame Finish");
             //System.exit(0);

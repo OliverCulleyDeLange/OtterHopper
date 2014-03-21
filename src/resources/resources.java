@@ -1,6 +1,5 @@
 package resources;
 
-import javafx.scene.effect.ImageInput;
 
 import java.awt.*;
 import javax.imageio.*;
@@ -15,7 +14,7 @@ public class resources {
             "img/otter_strip.png",
             "img/landscape.png",
             "img/tree_trans.png",
-            "img/fence.png"
+            "img/clefable.png"
     };
     //Raw bufferedImages & Sounds
     public ArrayList<BufferedImage> images = new ArrayList();
@@ -23,13 +22,14 @@ public class resources {
     //Sprites
     public Sprite bg;
     public ArrayList<Tree> trees = new ArrayList();
-    public ArrayList<Fence> fences = new ArrayList();
+    public ArrayList<Enemy> enemies = new ArrayList();
     public Player player;
     //loadBar
     public loadBar lb = new loadBar();
     //Vars
     private int loadPercentageComplete = 0;
-
+    private double scale;
+    public Color menuOverlayBg = new Color(140, 150, 150, 185 );
 
     public void loadImage(String imgPath) throws IOException {
         try {
@@ -49,5 +49,11 @@ public class resources {
     }
     public int getLoadPercentageComplete() {
         return loadPercentageComplete;
+    }
+    public void setScale(double s) {
+        scale = s;
+    }
+    public double getScale() {
+        return scale;
     }
 }
