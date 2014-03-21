@@ -45,10 +45,23 @@ public class Game extends JPanel {
         return true;
     }
     public void newGame() {
+        r.setScale( r.images.get(1).getHeight() / getHeight());
         //Initiate Background image
-        r.bg = new Sprite(r.images.get(1),this.getWidth(), this.getHeight());
+        r.bg = new Sprite(
+                r.images.get(1),
+                this.getWidth(), 
+                this.getHeight(), 
+                r.getScale()
+        );
         //Initiate Player Image
-        r.player = new Player(r.images.get(0), this.getWidth(), this.getHeight());
+        r.player = new Player(
+                r.images.get(0), 
+                this.getWidth(), 
+                this.getHeight(),
+                r.getScale(),
+                r.images.get(1).getWidth(),
+                r.images.get(1).getHeight()
+        );
         //Sets off game loop
         System.out.println("Starting Game Loop");
         startGameLoop();
@@ -104,7 +117,15 @@ public class Game extends JPanel {
         r.bg.setPosX(r.bg.getPosX()+(r.bg.getSpeed()*delta));
         //Add tree's every now and then
         if (treeTimer > 5000000000l) {
-            r.trees.add(new Tree(r.images.get(2),getWidth(),getHeight()));
+            r.trees.add(new Tree(
+                    r.images.get(2),
+                    getWidth(),
+                    getHeight(),
+                    r.getScale(),
+                    r.images.get(2).getWidth(),
+                    r.images.get(2).getHeight()
+                )
+            );
             treeTimer = 0;
         } else {
             treeTimer += timeSinceLastLoop;
@@ -125,12 +146,11 @@ public class Game extends JPanel {
             super.paint(g);
             Graphics2D g2d = (Graphics2D) g;
             //Draw Background
-            if (r.bg.getPosX() >= 1020) r.bg.setPosX(0);
-            double scale = r.bg.getImg().getHeight() / getHeight();
+            if (r.bg.getPosX() >= 1920) r.bg.setPosX(0);
             BufferedImage bgSub = r.bg.getImg().getSubimage(
                     r.bg.getPosX(),
                     0,
-                    (int) Math.round(getWidth()*scale),
+                    (int) Math.round(getWidth() * r.getScale()),
                     r.bg.getImg().getHeight()
             );
             g2d.drawImage(bgSub,0,0,getWidth(),getHeight(),this );
