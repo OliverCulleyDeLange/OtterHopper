@@ -51,10 +51,7 @@ public class Game extends JPanel {
     }
     public void newGame() {
         r.setScale( r.images.get(1).getHeight() / getHeight());
-<<<<<<< HEAD
         //System.out.println("Scale = " + r.getScale());
-=======
->>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
         //Initiate Background image
         r.bg = new Sprite(
                 r.images.get(1),
@@ -68,13 +65,8 @@ public class Game extends JPanel {
                 this.getWidth(), 
                 this.getHeight(),
                 r.getScale(),
-<<<<<<< HEAD
                 r.images.get(0).getWidth()/6,
                 r.images.get(0).getHeight()
-=======
-                r.images.get(1).getWidth(),
-                r.images.get(1).getHeight()
->>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
         );
         //Sets off game loop
         //System.out.println("Starting Game Loop");
@@ -137,7 +129,6 @@ public class Game extends JPanel {
     public void updateGame(double delta, long timeSinceLastLoop) {
         //Move Background slowly left
         r.bg.setPosX(r.bg.getPosX()+(r.bg.getSpeed()*delta));
-<<<<<<< HEAD
         // Only add trees and enemies if in game
         if (inGame) {
             //Add tree's every now and then
@@ -177,22 +168,6 @@ public class Game extends JPanel {
             } else {
                 enemyTimer += timeSinceLastLoop * delta;
             }
-=======
-        //Add tree's every now and then
-        if (treeTimer > 5000000000l) {
-            r.trees.add(new Tree(
-                    r.images.get(2),
-                    getWidth(),
-                    getHeight(),
-                    r.getScale(),
-                    r.images.get(2).getWidth(),
-                    r.images.get(2).getHeight()
-                )
-            );
-            treeTimer = 0;
-        } else {
-            treeTimer += timeSinceLastLoop;
->>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
         }
         
         //Move trees left slowly & remove if off screen
