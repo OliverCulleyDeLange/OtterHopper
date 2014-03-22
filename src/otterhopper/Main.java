@@ -14,7 +14,7 @@ public class Main {
     
     public static void main(String[] args) {
         //Frame setup
-        System.out.println("FrameSetup Start");
+        //System.out.println("FrameSetup Start");
         frame = new JFrame("OtterHopper"); // Create Windows for game
         frame.setPreferredSize(new Dimension(width, height));
         frame.setResizable(true);
@@ -26,17 +26,17 @@ public class Main {
         //Pack window
         frame.pack();
         frame.setVisible(true);
-        System.out.println("FrameSetup Finish");
+        //System.out.println("FrameSetup Finish");
 
         //If resources load successfully - start game loop
-        System.out.println("LoadResources Start");
+        //System.out.println("LoadResources Start");
         game.add(game.r.lb, BorderLayout.PAGE_END);
         if (game.loadResources()) { // Resources loaded if true
             game.loading = false;
             game.remove(game.r.lb);
-            System.out.println("LoadResources Finish");
+            //System.out.println("LoadResources Finish");
             //Sets up and starts game
-            System.out.println("NewGame Start");
+            //System.out.println("NewGame Start");
             
             k  = new UserInput(game);
             if (!frame.isFocusable()) {
@@ -46,7 +46,7 @@ public class Main {
             frame.setFocusTraversalKeysEnabled(false);
 
             game.newGame();
-            System.out.println("NewGame Finish");
+            //System.out.println("NewGame Finish");
             //System.exit(0);
         }
         else { // Else Error message

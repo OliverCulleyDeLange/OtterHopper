@@ -30,7 +30,7 @@ public class resources {
     //Vars
     private int loadPercentageComplete = 0;
     private double scale;
-    public Color menuOverlayBg = new Color(140, 150, 150, 185 );
+    public Color menuOverlayBg = new Color(140, 150, 150, 150 );
 
     public void loadImage(String imgPath) throws IOException {
         try {

@@ -21,8 +21,8 @@ public class Sprite extends ImageIcon {
     }
     //Collision detection
     public boolean collides(int x, int y, int r, int b) {
-        int adjX = 50;
-        int adjY = 25;
+        int adjX = 5;
+        int adjY = 5;
         boolean result = !(
                 r <= this.posX + adjX || 
                 x > this.posX + this.width - adjX || 

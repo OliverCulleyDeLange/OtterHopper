@@ -7,7 +7,13 @@ import java.awt.event.KeyListener;
 import resources.*;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.nio.CharBuffer;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +28,9 @@ public class Game extends JPanel {
     public boolean inGame = false; // In Menus or game? Default to Menus (false)
     public boolean loading = true; // Controls drawing
     private int score = 0; // How many jumps did he make? ++1
+    private int highScore;
+    private String highScoreFile = "highScore.txt";
+    public boolean highScoreNotification = false;
     private int difficulty = 100;
     private long treeTimer = 1;
     private long enemyTimer = 1;
@@ -50,6 +59,7 @@ public class Game extends JPanel {
         return true;
     }
     public void newGame() {
+        readHighScore();
         r.setScale( r.images.get(1).getHeight() / getHeight());
         //System.out.println("Scale = " + r.getScale());
         //Initiate Background image
@@ -73,11 +83,42 @@ public class Game extends JPanel {
         startGameLoop();
     }
     public void endGame() {
+        if (score > getHighScore()) {
+            saveHighScore(score);
+            highScore = score;
+            highScoreNotification = true;
+        }
+        
         this.inGame = false;
         this.waitingForKeyPress = true;
         this.difficulty = 100;
         this.score = 0;
         this.r.enemies.clear();
+    }
+    public void readHighScore() {
+        try (
+                FileReader fr = new FileReader(highScoreFile);
+        ) {
+            StringBuilder sb = new StringBuilder();
+            int tmp = fr.read();
+            while (tmp != -1) {
+                sb.append((char) tmp);
+                tmp = fr.read();
+            }
+            highScore = new Integer(sb.toString());
+        } catch (IOException e) {
+           System.out.println("File Not Found: " + e);
+        }
+    }
+    public void saveHighScore(int Score) {
+        try {
+            PrintWriter pr = new PrintWriter(highScoreFile);    
+            pr.print(Score);
+            pr.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("No such file exists.");
+        }
     }
     public void startGameLoop() {
         // 
@@ -129,6 +170,7 @@ public class Game extends JPanel {
     public void updateGame(double delta, long timeSinceLastLoop) {
         //Move Background slowly left
         r.bg.setPosX(r.bg.getPosX()+(r.bg.getSpeed()*delta));
+        if (r.bg.getPosX() >= 2308) r.bg.setPosX(0);
         // Only add trees and enemies if in game
         if (inGame) {
             //Add tree's every now and then
@@ -163,7 +205,7 @@ public class Game extends JPanel {
                 )
                 );
                 enemyTimer = 0;
-                enemyRnd = rnd.nextInt(100) + difficulty;
+                enemyRnd = rnd.nextInt(50) + difficulty;
                 difficulty--;
             } else {
                 enemyTimer += timeSinceLastLoop * delta;
@@ -209,7 +251,7 @@ public class Game extends JPanel {
                 //                int x, int y, int r, int b
                 if (r.player.collides(e.getPosX(), e.getPosY(), 
                     e.getPosX() + e.width, e.getPosY() + e.height)) {
-                    System.out.println("Collision");
+                    //System.out.println("Collision");
                     endGame();
                     break;
                 }
@@ -224,7 +266,6 @@ public class Game extends JPanel {
         if (r.images.size() == r.imagesToLoad.length) {
             super.paint(g);
             //Draw Background
-            if (r.bg.getPosX() >= 1920) r.bg.setPosX(0);
             BufferedImage bgSub = r.bg.getImg().getSubimage(
                     r.bg.getPosX(),
                     0,
@@ -244,13 +285,13 @@ public class Game extends JPanel {
                 );
             }
             //Draw Enemies
-            for (Enemy fence : r.enemies){
+            for (Enemy enemy : r.enemies){
                 g2d.drawImage(
-                        fence.getImg(),
-                        fence.getPosX(),
-                        fence.getPosY(),
-                        fence.getWidth(),
-                        fence.getHeight(),
+                        enemy.getImg(),
+                        enemy.getPosX(),
+                        enemy.getPosY(),
+                        enemy.getWidth(),
+                        enemy.getHeight(),
                         this
                 );
             }
@@ -270,16 +311,25 @@ public class Game extends JPanel {
                     this
             );
             //Draw menu overlay if in menu... Obvious really!?
-            g2d.setFont(new Font("Helvetica", Font.PLAIN, 50));
+            g2d.setFont(new Font("Helvetica", Font.PLAIN, 35));
             if (!inGame) {
                 g2d.setColor(r.menuOverlayBg);
                 g2d.fillRect(0 , 0 , getWidth(), getHeight());
                 g2d.setColor(Color.ORANGE);
                 g2d.drawString("Press any key to start game", 50, 50);
-                g2d.drawString("Press ESC to pause / cheat", 50, 100);
+                
+                if (highScoreNotification) {
+                    g2d.drawString("Congratulations, you got a new high score: " + highScore, 50, (int) (this.getHeight() /2));
+                } else {
+                    g2d.drawString("Current High Score is: " + highScore, 50, 100);
+                }
+            } else { // Draw current score in Game
+                g2d.setColor(Color.ORANGE);
+                g2d.drawString("Score: " + new Integer(score).toString(), (int) (this.getWidth()*0.1), 50);
             }
-            g2d.setColor(Color.ORANGE);
-            g2d.drawString(new Integer(score).toString(), (int) (this.getWidth()*0.9), 50);
         }
+    }
+    public int getHighScore() {
+        return highScore;
     }
 }

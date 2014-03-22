@@ -24,6 +24,7 @@ public class UserInput extends KeyAdapter{
             if (g.waitingForKeyPress) {
                 g.waitingForKeyPress = false;
                 g.inGame = true;
+                g.highScoreNotification = false;
             }
             if (e.getKeyChar() == ' ') {
                 if (g.r.player.getOnGround()) {
@@ -31,9 +32,8 @@ public class UserInput extends KeyAdapter{
                 }
             }
             if (e.getKeyChar() == 27) { // Escape key exits game
-                g.inGame = false; 
-                g.waitingForKeyPress = true;
-                //System.exit(0);
+                //g.endGame();
+                System.exit(0);
             }
     }
 }
