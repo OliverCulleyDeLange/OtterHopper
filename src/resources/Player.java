@@ -19,12 +19,19 @@ public class Player extends Sprite {
 
     public int animFrame = 5;
     public long animTimer = 0;
+<<<<<<< HEAD
 
     public Player(BufferedImage i,int w, int h, double s, int imgWidth, int imgHeight) {
         super(i, imgWidth,imgHeight, s);
         setPosX(w / 8);
         setPosY(h * 0.7);
         groundCoordY = getPosY();
+=======
+    public Player(BufferedImage i,int w, int h, double s, int imgWidth, int imgHeight) {
+        super(i, imgWidth,imgHeight, s);
+        this.setPosX(w/6);
+        this.setPosY(h*0.75);
+>>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
     }
     public void updateAnimFrame(long time) {
         animTimer += time;

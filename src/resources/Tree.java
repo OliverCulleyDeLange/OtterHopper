@@ -9,10 +9,18 @@ public class Tree extends Sprite {
     public Tree(BufferedImage i,int w, int h, double s, int imgWidth, int imgHeight) {
         super(i, imgWidth,imgHeight, s);
         Random r = new Random();
+<<<<<<< HEAD
         int max = (int) Math.round(h*0.4);
         int min = (int) Math.round(h*0.2);
         this.setPosY(r.nextInt(max-min) + min);
         this.setPosX(w);
         this.setSpeed(1.5);
+=======
+        int max = (int) Math.round(h*0.7);
+        int min = (int) Math.round(h*0.4);
+        this.setPosY(r.nextInt(max-min) + min);
+        this.setPosX(w);
+        this.setSpeed(0.75);
+>>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
     }
 }

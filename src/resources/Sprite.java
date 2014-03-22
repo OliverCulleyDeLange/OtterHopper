@@ -18,6 +18,7 @@ public class Sprite extends ImageIcon {
         setImage(img);
         height = (int) Math.round(h / s);
         width = (int) Math.round(w / s);
+<<<<<<< HEAD
     }
     //Collision detection
     public boolean collides(int x, int y, int r, int b) {
@@ -36,6 +37,8 @@ public class Sprite extends ImageIcon {
 //                "EnemyY("+y+")>PlayerBottom("+(this.posY + this.height)+") - "
 //        );
         return result;
+=======
+>>>>>>> 8649a03ad52fe9d2325eb5786149482051238bf8
     }
     
     public BufferedImage getImg() {
