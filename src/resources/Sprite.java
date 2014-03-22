@@ -21,13 +21,11 @@ public class Sprite extends ImageIcon {
     }
     //Collision detection
     public boolean collides(int x, int y, int r, int b) {
-        int adjX = 5;
-        int adjY = 5;
-        boolean result = !(
-                r <= this.posX + adjX || 
-                x > this.posX + this.width - adjX || 
-                b <= this.posY + adjY || 
-                y > this.posY + this.height - adjY
+        boolean result = !( // Adjust for white space in image // right - 55 // bottom -15 //Left + 20
+                r <= this.posX + 30 || 
+                x > this.posX + this.width - 60 || 
+                b <= this.posY || 
+                y > this.posY + this.height - 30
         );
         //System.out.println(result+ "  "+
 //                "EnemyRight("+r+")<=PlayerLeft("+this.posX+") - "+
