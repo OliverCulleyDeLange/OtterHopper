@@ -23,6 +23,7 @@ public class resources {
     public Sprite bg;
     public ArrayList<Tree> trees = new ArrayList();
     public ArrayList<Enemy> enemies = new ArrayList();
+    public ArrayList<Enemy> countedEnemies = new ArrayList();
     public Player player;
     //loadBar
     public loadBar lb = new loadBar();

@@ -13,8 +13,6 @@ import otterhopper.Game;
  * @author OCulley1
  */
 public class UserInput extends KeyAdapter{
-    private boolean waitingForKeyPress = true;
-    private int pressCount = 1;
     private Game g;
     
     public UserInput(Game game) {
@@ -23,25 +21,18 @@ public class UserInput extends KeyAdapter{
     @Override
     public void keyTyped(KeyEvent e) {
         //System.out.print(e.getKeyCode() + " / " + e.getKeyChar() + " Pressed");
-            if (waitingForKeyPress) {
-                    if (pressCount == 1) {
-                            waitingForKeyPress = false;
-                            // Set inGame = True to start game
-                            g.inGame = true;
-                            pressCount = 0;
-                    } else {
-                            pressCount++;
-                    }
+            if (g.waitingForKeyPress) {
+                g.waitingForKeyPress = false;
+                g.inGame = true;
             }
             if (e.getKeyChar() == ' ') {
                 if (g.r.player.getOnGround()) {
                     g.r.player.jump();
                 }
-
             }
             if (e.getKeyChar() == 27) { // Escape key exits game
                 g.inGame = false; 
-                waitingForKeyPress = true;
+                g.waitingForKeyPress = true;
                 //System.exit(0);
             }
     }

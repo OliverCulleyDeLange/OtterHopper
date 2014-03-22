@@ -21,7 +21,21 @@ public class Sprite extends ImageIcon {
     }
     //Collision detection
     public boolean collides(int x, int y, int r, int b) {
-        return !(r <= this.posX || x > this.width || b <= this.posY || y > this.height);
+        int adjX = 50;
+        int adjY = 25;
+        boolean result = !(
+                r <= this.posX + adjX || 
+                x > this.posX + this.width - adjX || 
+                b <= this.posY + adjY || 
+                y > this.posY + this.height - adjY
+        );
+        //System.out.println(result+ "  "+
+//                "EnemyRight("+r+")<=PlayerLeft("+this.posX+") - "+
+//                "EnemyLeft("+x+")>PlayerRight("+(this.posX + this.width)+") - "+
+//                "EnemyBottom("+b+")<=PlayerTop("+this.posY+") - "+
+//                "EnemyY("+y+")>PlayerBottom("+(this.posY + this.height)+") - "
+//        );
+        return result;
     }
     
     public BufferedImage getImg() {

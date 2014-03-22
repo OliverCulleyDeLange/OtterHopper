@@ -1,13 +1,16 @@
 package otterhopper;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import resources.*;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import javax.swing.*;
 
@@ -19,11 +22,10 @@ public class Game extends JPanel {
     public boolean inGame = false; // In Menus or game? Default to Menus (false)
     public boolean loading = true; // Controls drawing
     private int score = 0; // How many jumps did he make? ++1
-    private int distance = 0; // How far did the otter get? 
-    private long time = 0; // Time played for
     private int difficulty = 100;
     private long treeTimer = 1;
     private long enemyTimer = 1;
+    public boolean waitingForKeyPress = true;
     
     public  Random rnd = new Random();
     public long treeRnd = 50;
@@ -69,6 +71,13 @@ public class Game extends JPanel {
         //Sets off game loop
         //System.out.println("Starting Game Loop");
         startGameLoop();
+    }
+    public void endGame() {
+        this.inGame = false;
+        this.waitingForKeyPress = true;
+        this.difficulty = 100;
+        this.score = 0;
+        this.r.enemies.clear();
     }
     public void startGameLoop() {
         // 
@@ -162,15 +171,15 @@ public class Game extends JPanel {
         }
         
         //Move trees left slowly & remove if off screen
-        ArrayList<Integer> tmpRemovals = new ArrayList();
+        ArrayList<Sprite> tmpRemovals = new ArrayList();
         for (Tree tree : r.trees) {
             tree.setPosX(tree.getPosX()-(tree.getSpeed()*delta));
             if (tree.getPosX() < 0 - tree.width) {
-                tmpRemovals.add(r.trees.indexOf(tree));
+                tmpRemovals.add(tree);
             }
         } 
-        for (Integer i : tmpRemovals) {
-            r.trees.remove((int) i);
+        for (Sprite i : tmpRemovals) {
+            r.trees.remove((Tree) i);
         }
         
         tmpRemovals.clear(); // Clear out removal array
@@ -178,22 +187,32 @@ public class Game extends JPanel {
         //Move enemies left & remove if off screen
         for (Enemy enemy : r.enemies) {
             enemy.setPosX(enemy.getPosX()-(enemy.getSpeed()*delta));
+            if (enemy.getPosX()+enemy.getWidth() / 2 < r.player.getPosX()+r.player.getWidth() / 2 &&
+                    !r.countedEnemies.contains(enemy)) {
+                    r.countedEnemies.add(enemy); // add enemy to countedEnemies so doesn't increase score next loop
+                    score++; // Score point
+            }
             if (enemy.getPosX() < 0 - enemy.width) {
-                tmpRemovals.add(r.enemies.indexOf(enemy));
+                tmpRemovals.add(enemy);
             }
         }
-        for (Integer i : tmpRemovals) {
-            r.enemies.remove((int) i);
+        for (Sprite i : tmpRemovals) {
+            r.enemies.remove((Enemy) i);
         }        
         //Update Otter Y pos
         r.player.autoSetPosY(delta);
         //Update Otter animation cycle
         r.player.updateAnimFrame(timeSinceLastLoop);
         //Player -> enemies collision detection
-        for (Enemy e : r.enemies) {
-            //                int x, int y, int r, int b
-            if (r.player.collides(e.getPosX(), e.getPosY(), e.width, e.height)) {
-                System.out.println("Collision-> " + e);
+        if (r.enemies.size() > 0 ){
+            for (Enemy e : r.enemies) {
+                //                int x, int y, int r, int b
+                if (r.player.collides(e.getPosX(), e.getPosY(), 
+                    e.getPosX() + e.width, e.getPosY() + e.height)) {
+                    System.out.println("Collision");
+                    endGame();
+                    break;
+                }
             }
         }
     }
@@ -224,7 +243,7 @@ public class Game extends JPanel {
                         this
                 );
             }
-            //Draw Fences
+            //Draw Enemies
             for (Enemy fence : r.enemies){
                 g2d.drawImage(
                         fence.getImg(),
@@ -251,10 +270,16 @@ public class Game extends JPanel {
                     this
             );
             //Draw menu overlay if in menu... Obvious really!?
+            g2d.setFont(new Font("Helvetica", Font.PLAIN, 50));
             if (!inGame) {
                 g2d.setColor(r.menuOverlayBg);
                 g2d.fillRect(0 , 0 , getWidth(), getHeight());
+                g2d.setColor(Color.ORANGE);
+                g2d.drawString("Press any key to start game", 50, 50);
+                g2d.drawString("Press ESC to pause / cheat", 50, 100);
             }
+            g2d.setColor(Color.ORANGE);
+            g2d.drawString(new Integer(score).toString(), (int) (this.getWidth()*0.9), 50);
         }
     }
 }
