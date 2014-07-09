@@ -1,15 +1,8 @@
-/*
- * -.- OCD -.-
- */
-
 package resources;
 
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author OCulley1
- */
+
 public class Player extends Sprite {
     private boolean onGround = true; // Is sprite
     private int groundCoordY;
@@ -17,8 +10,8 @@ public class Player extends Sprite {
     private double velY = 0; //Y Axis velocity
     private double[] velYMaxMin = {1.5,-2.5}; // Max and Min Velocity
 
-    public int animFrame = 5;
-    public long animTimer = 0;
+    private int animFrame = 5;
+    private long animTimer = 0;
 
     public Player(BufferedImage i,int w, int h, double s, int imgWidth, int imgHeight) {
         super(i, imgWidth,imgHeight, s);
@@ -43,17 +36,11 @@ public class Player extends Sprite {
         setOnGround(false);
         velY = velYMaxMin[1];
     }
-    public void setOnGround(boolean og){
-        onGround = og;
-    }
-    public boolean getOnGround() {
-        return onGround;
-    }
     public void autoSetPosY(double d) { //delta
         if (onGround) {
             velY = 0;
         } else { //Jumping
-            velY += 0.08;
+            velY += (0.08 * d);
             //System.out.println(velY + "  = VelY");
             if (velY >= velYMaxMin[0]) velY = velYMaxMin[0];
             if (velY <= velYMaxMin[1]) velY = velYMaxMin[1];
@@ -66,5 +53,53 @@ public class Player extends Sprite {
         }
         //System.out.println("newPos = " + newPos);
         super.setPosY(newPos);
+    }
+
+    public boolean getOnGround() {
+        return onGround;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
+
+    public int getGroundCoordY() {
+        return groundCoordY;
+    }
+
+    public void setGroundCoordY(int groundCoordY) {
+        this.groundCoordY = groundCoordY;
+    }
+
+    public double getVelY() {
+        return velY;
+    }
+
+    public void setVelY(double velY) {
+        this.velY = velY;
+    }
+
+    public double[] getVelYMaxMin() {
+        return velYMaxMin;
+    }
+
+    public void setVelYMaxMin(double[] velYMaxMin) {
+        this.velYMaxMin = velYMaxMin;
+    }
+
+    public int getAnimFrame() {
+        return animFrame;
+    }
+
+    public void setAnimFrame(int animFrame) {
+        this.animFrame = animFrame;
+    }
+
+    public long getAnimTimer() {
+        return animTimer;
+    }
+
+    public void setAnimTimer(long animTimer) {
+        this.animTimer = animTimer;
     }
 }

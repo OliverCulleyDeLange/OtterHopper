@@ -21,14 +21,13 @@ public class UserInput extends KeyAdapter{
     @Override
     public void keyTyped(KeyEvent e) {
         //System.out.print(e.getKeyCode() + " / " + e.getKeyChar() + " Pressed");
-            if (g.waitingForKeyPress) {
-                g.waitingForKeyPress = false;
-                g.inGame = true;
-                g.highScoreNotification = false;
+            if (e.getKeyChar() == KeyEvent.VK_ENTER) { //Press enter
+                g.setInGame(true);
+                g.setHighScoreNotification(false);
             }
             if (e.getKeyChar() == ' ') {
-                if (g.r.player.getOnGround()) {
-                    g.r.player.jump();
+                if (g.r.getPlayer().getOnGround()) {
+                    g.r.getPlayer().jump();
                 }
             }
             if (e.getKeyChar() == 27) { // Escape key exits game

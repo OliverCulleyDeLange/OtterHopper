@@ -9,8 +9,8 @@ public class Sprite extends ImageIcon {
     private double posX;
     private double posY;
 
-    public int width;
-    public int height;
+    private int width;
+    private int height;
     private BufferedImage img;
 
     public Sprite(BufferedImage i,int w, int h, double s) {
@@ -21,27 +21,12 @@ public class Sprite extends ImageIcon {
     }
     //Collision detection
     public boolean collides(int x, int y, int r, int b) {
-        boolean result = !( // Adjust for white space in image // right - 55 // bottom -15 //Left + 20
+        return  !( // Adjust for white space in image // right - 55 // bottom -15 //Left + 20
                 r <= this.posX + 30 || 
                 x > this.posX + this.width - 60 || 
                 b <= this.posY || 
                 y > this.posY + this.height - 30
         );
-        //System.out.println(result+ "  "+
-//                "EnemyRight("+r+")<=PlayerLeft("+this.posX+") - "+
-//                "EnemyLeft("+x+")>PlayerRight("+(this.posX + this.width)+") - "+
-//                "EnemyBottom("+b+")<=PlayerTop("+this.posY+") - "+
-//                "EnemyY("+y+")>PlayerBottom("+(this.posY + this.height)+") - "
-//        );
-        return result;
-    }
-    
-    public BufferedImage getImg() {
-        return img;
-    }
-
-    public void setImg(BufferedImage img) {
-        this.img = img;
     }
 
     public double getSpeed() {
@@ -82,5 +67,13 @@ public class Sprite extends ImageIcon {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public BufferedImage getImg() {
+        return img;
+    }
+
+    public void setImg(BufferedImage img) {
+        this.img = img;
     }
 }

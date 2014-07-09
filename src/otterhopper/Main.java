@@ -2,56 +2,47 @@ package otterhopper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 import resources.UserInput;
 
 public class Main {
     static JFrame frame;
     static Game game = new Game();
+    static public UserInput k  = new UserInput(game);
 
-    static public int height = 1020/2;
-    static public int width = 1920/2;
-    static public UserInput k;
-    
+    static final public int height = 1020/2;
+    static final public int width = 1920/2;
+
     public static void main(String[] args) {
-        //Frame setup
-        //System.out.println("FrameSetup Start");
-        frame = new JFrame("OtterHopper"); // Create Windows for game
-        frame.setPreferredSize(new Dimension(width, height));
-        frame.setResizable(true);
-        frame.setBackground(Color.BLACK);
-        //frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Game setup
-        frame.setContentPane(game);
-        //Pack window
-        frame.pack();
-        frame.setVisible(true);
-        //System.out.println("FrameSetup Finish");
-
-        //If resources load successfully - start game loop
-        //System.out.println("LoadResources Start");
-        game.add(game.r.lb, BorderLayout.PAGE_END);
-        if (game.loadResources()) { // Resources loaded if true
-            game.loading = false;
-            game.remove(game.r.lb);
-            //System.out.println("LoadResources Finish");
-            //Sets up and starts game
-            //System.out.println("NewGame Start");
-            
-            k  = new UserInput(game);
-            if (!frame.isFocusable()) {
-                frame.setFocusable(true);
+        Runnable jFrameSetUp = new Runnable() {
+            public void run() {
+                frame = new JFrame("OtterHopper"); // Create Windows for game
+                frame.setPreferredSize(new Dimension(width, height));
+                frame.setResizable(true);
+                frame.setBackground(Color.BLACK);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.setContentPane(game);
+                if (!frame.isFocusable()) {
+                    frame.setFocusable(true);
+                }
+                frame.addKeyListener(k);
+                frame.setFocusTraversalKeysEnabled(false);
+                frame.pack();
+                frame.setVisible(true);
             }
-            frame.addKeyListener(k);
-            frame.setFocusTraversalKeysEnabled(false);
+        };
+        SwingUtilities.invokeLater(jFrameSetUp);
 
-            game.newGame();
-            //System.out.println("NewGame Finish");
-            //System.exit(0);
-        }
-        else { // Else Error message
-            System.out.println("Error loading resources");
+        try {// Try to load resources
+            game.add(game.r.getLb(), BorderLayout.PAGE_END);
+            game.loadResources();
+            game.remove(game.r.getLb());
+        } catch (IOException e) { // Exit if error
+            System.out.println("Error loading resources:");
+            e.printStackTrace();
             System.exit(0);
         }
+        game.newGame();
     }  
 }
