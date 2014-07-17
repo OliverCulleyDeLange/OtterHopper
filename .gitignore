@@ -20,7 +20,8 @@ logs
 /RUNNING_PID
 /.settings
 .shell_history
-target/
-.gradle/
-build/
-/dist/
+target
+.gradle
+build
+/dist
+/gen
