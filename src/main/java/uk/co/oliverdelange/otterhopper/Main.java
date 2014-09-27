@@ -1,8 +1,9 @@
-package otterhopper;
+package uk.co.oliverdelange.otterhopper;
+
+import uk.co.oliverdelange.resources.UserInput;
 
 import javax.swing.*;
 import java.awt.*;
-import resources.UserInput;
 
 public class Main {
     static JFrame frame;
@@ -11,7 +12,7 @@ public class Main {
     static public int height = 1020/2;
     static public int width = 1920/2;
     static public UserInput k;
-    
+
     public static void main(String[] args) {
         //Frame setup
         //System.out.println("FrameSetup Start");
@@ -28,7 +29,7 @@ public class Main {
         frame.setVisible(true);
         //System.out.println("FrameSetup Finish");
 
-        //If resources load successfully - start game loop
+        //If Resources load successfully - start game loop
         //System.out.println("LoadResources Start");
         game.add(game.r.lb, BorderLayout.PAGE_END);
         if (game.loadResources()) { // Resources loaded if true
@@ -50,7 +51,7 @@ public class Main {
             //System.exit(0);
         }
         else { // Else Error message
-            System.out.println("Error loading resources");
+            System.out.println("Error loading Resources");
             System.exit(0);
         }
     }  

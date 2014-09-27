@@ -1,28 +1,19 @@
-package otterhopper;
+package uk.co.oliverdelange.otterhopper;
 
+import uk.co.oliverdelange.resources.*;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import resources.*;
-
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.nio.CharBuffer;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-import javax.swing.*;
 
 public class Game extends JPanel {
     //Declare the game variables
-    public resources r = new resources();
+    public Resources r = new Resources();
     
     private boolean gameRunning = true; // Controlls game loop
     public boolean inGame = false; // In Menus or game? Default to Menus (false)

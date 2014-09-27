@@ -1,14 +1,14 @@
-package resources;
+package uk.co.oliverdelange.resources;
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-import javax.imageio.*;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.*;
-import java.io.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
-public class resources {
+public class Resources {
     //Paths
     final public String[] imagesToLoad = {
             "img/otter_strip.png",
@@ -25,8 +25,8 @@ public class resources {
     public ArrayList<Enemy> enemies = new ArrayList();
     public ArrayList<Enemy> countedEnemies = new ArrayList();
     public Player player;
-    //loadBar
-    public loadBar lb = new loadBar();
+    //LoadBar
+    public LoadBar lb = new LoadBar();
     //Vars
     private int loadPercentageComplete = 0;
     private double scale;
@@ -34,7 +34,7 @@ public class resources {
 
     public void loadImage(String imgPath) throws IOException {
         try {
-            //BufferedImage img = ImageIO.read(new File(imgPath));l
+//            BufferedImage bi = ImageIO.read(new File(imgPath));
             InputStream is = ClassLoader.getSystemResourceAsStream(imgPath);
             //ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
             BufferedImage img = ImageIO.read(is);

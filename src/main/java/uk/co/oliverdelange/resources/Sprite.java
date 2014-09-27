@@ -1,4 +1,4 @@
-package resources;
+package uk.co.oliverdelange.resources;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

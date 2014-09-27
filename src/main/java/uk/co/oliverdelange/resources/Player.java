@@ -2,7 +2,7 @@
  * -.- OCD -.-
  */
 
-package resources;
+package uk.co.oliverdelange.resources;
 
 import java.awt.image.BufferedImage;
 
