@@ -9,9 +9,6 @@ logs
 /nbproject
 /.idea
 /src/img/not_needed/*
-*.iml
-*.iws
-*.ipr
 /out
 /.idea_modules
 .metadata
