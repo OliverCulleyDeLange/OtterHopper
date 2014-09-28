@@ -1,6 +1,6 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.Game;
+import uk.co.oliverdelange.otterhopper.OtterHopperGame;
 
 public class Otter extends Sprite {
 
@@ -37,7 +37,7 @@ public class Otter extends Sprite {
 
     private void applyGravity() {
         if (this.hopping) {
-            yAxisVelocity += (0.08 * Game.delta);
+            yAxisVelocity += (0.08 * OtterHopperGame.delta);
             if (yAxisVelocity >= maximumYAxisVelocity) yAxisVelocity = maximumYAxisVelocity;
             if (yAxisVelocity <= minimumYAxisVelocity) yAxisVelocity = minimumYAxisVelocity;
         } else {

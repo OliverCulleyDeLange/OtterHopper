@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">OtterHopper</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button">Hop!</string>
+    <string name="dummy_content">You are an Otter...</string>
+    <string name="resume_button">Resume!</string>
 
 </resources>

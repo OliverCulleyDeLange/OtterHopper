@@ -1,6 +1,6 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.Game;
+import uk.co.oliverdelange.otterhopper.OtterHopperGame;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ public class AppearingSprite extends Sprite {
             timer = 0;
             return true;
         } else {
-            timer += Game.timeSinceLastLoop * Game.delta;
+            timer += OtterHopperGame.timeSinceLastLoop * OtterHopperGame.delta;
             return false;
         }
     }

@@ -1,6 +1,6 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.Game;
+import uk.co.oliverdelange.otterhopper.OtterHopperGame;
 
 public class Background {
 
@@ -10,6 +10,6 @@ public class Background {
 
 
     public static void update() {
-        sprite.setNewXPosition( Game.delta * sprite.getSpeed());
+        sprite.setNewXPosition( OtterHopperGame.delta * sprite.getSpeed());
     }
 }
