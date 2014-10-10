@@ -1,9 +1,10 @@
-package uk.co.oliverdelange.otterhopper;
+package uk.co.oliverdelange.otterhopper.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import uk.co.oliverdelange.otterhopper.R;
 
 
 public class OtterHopperMenu extends Activity {

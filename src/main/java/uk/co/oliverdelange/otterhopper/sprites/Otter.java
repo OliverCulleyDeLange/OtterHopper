@@ -1,7 +1,5 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.OtterHopperGame;
-
 public class Otter extends Sprite {
 
     private boolean hopping = false;
@@ -20,8 +18,10 @@ public class Otter extends Sprite {
     }
 
     public void hop() {
-        this.hopping = true;
-        yAxisVelocity = minimumYAxisVelocity;
+        if (!hopping) {
+            this.hopping = true;
+            yAxisVelocity = minimumYAxisVelocity;
+        }
     }
 
     public void move() {
@@ -37,7 +37,7 @@ public class Otter extends Sprite {
 
     private void applyGravity() {
         if (this.hopping) {
-            yAxisVelocity += (0.08 * OtterHopperGame.delta);
+            yAxisVelocity += (0.08); //TODO deltaTime dependent
             if (yAxisVelocity >= maximumYAxisVelocity) yAxisVelocity = maximumYAxisVelocity;
             if (yAxisVelocity <= minimumYAxisVelocity) yAxisVelocity = minimumYAxisVelocity;
         } else {

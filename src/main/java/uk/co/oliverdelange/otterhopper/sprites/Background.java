@@ -1,15 +1,15 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.OtterHopperGame;
-
 public class Background {
 
-    private static Sprite sprite;
+    private Sprite sprite;
 
-    private Background() {}
+    public Background() {
+        this.sprite = new Sprite(10,10,10,10);
+    }
 
 
-    public static void update() {
-        sprite.setNewXPosition( OtterHopperGame.delta * sprite.getSpeed());
+    public void update(float deltaTime) {
+        this.sprite.setNewXPosition( this.sprite.getSpeed() * deltaTime);
     }
 }

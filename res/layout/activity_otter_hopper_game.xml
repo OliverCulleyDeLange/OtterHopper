@@ -5,14 +5,4 @@
             android:layout_height="match_parent"
             android:background="#abcdef" >
 
-    <Button
-            android:id="@+id/resume_button"
-            style="?metaButtonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/resume_button"
-            android:onClick="resumeGame"
-            />
-
 </FrameLayout>

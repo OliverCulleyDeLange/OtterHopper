@@ -1,7 +1,5 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-import uk.co.oliverdelange.otterhopper.OtterHopperGame;
-
 import java.util.Random;
 
 public class AppearingSprite extends Sprite {
@@ -10,11 +8,12 @@ public class AppearingSprite extends Sprite {
     private static Random random = new Random();
 
     public static boolean shouldAppear() {
-        if (timer > random.nextInt() * 100000000) {
+        int timeIncrease = random.nextInt() * 100;
+        if (timer > timeIncrease) {
             timer = 0;
             return true;
         } else {
-            timer += OtterHopperGame.timeSinceLastLoop * OtterHopperGame.delta;
+            timer += timeIncrease   ;
             return false;
         }
     }
