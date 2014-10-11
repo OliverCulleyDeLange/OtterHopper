@@ -7,7 +7,7 @@ public class Tree extends Sprite {
     private static long timer = 0;
     private static Random random = new Random();
 
-    Tree(int x, int y, int w, int h) {
+    Tree(long x, long y, int w, int h) {
         super(x, y, w, h);
     }
 

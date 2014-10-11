@@ -15,8 +15,10 @@ import static uk.co.oliverdelange.otterhopper.framework.AndroidInput.TouchEvent;
 
 
 public class GameScreen extends Screen {
+
+
     enum GameState {
-        Ready, Running, Paused, GameOver
+        Ready, Running, Paused, GameOver;
     }
 
     GameState state = GameState.Ready;
@@ -24,13 +26,16 @@ public class GameScreen extends Screen {
     Paint paint;
 
     private int highScore = 999; // TODO save game high score somehow
-    private int score = 0;
 
+    private int score = 0;
     private Otter otter;
+
     private Background background;
     private AppearingSpriteFactory appearingSpriteFactory;
     private ArrayList<Tree> trees = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private final ArrayList<Tree> treeRemoval = new ArrayList<>();
+    private final ArrayList<Enemy> enemyRemoval = new ArrayList<>();
 
 
     public GameScreen(AndroidGame game) {
@@ -52,7 +57,7 @@ public class GameScreen extends Screen {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
         if (state == GameState.Ready)
-            updateReady(touchEvents);
+            updateReady(touchEvents, deltaTime);
         if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
         if (state == GameState.Paused)
@@ -61,39 +66,32 @@ public class GameScreen extends Screen {
             updateGameOver(touchEvents);
     }
 
-    private void updateReady(List<TouchEvent> touchEvents) {
+    private void updateReady(List<TouchEvent> touchEvents, float deltaTime) {
         if (touchEvents.size() > 0)
             state = GameState.Running;
+
+        otter.move(deltaTime);
+        background.update(deltaTime);
+        updateTrees(deltaTime);
     }
 
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
-        ArrayList<Tree> treeRemoval = new ArrayList<>();
-        ArrayList<Enemy> enemyRemoval = new ArrayList<>();
-
-        int len = touchEvents.size();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 otter.hop();
             }
         }
-
+        otter.move(deltaTime);
         background.update(deltaTime);
-        if (Tree.shouldAppear(deltaTime)) {
-            trees.add(appearingSpriteFactory.newTree());
-        }
+        updateTrees(deltaTime);
+        updateEnemies(deltaTime);
+    }
+
+    private void updateEnemies(float deltaTime) {
         if (Enemy.shouldAppear(deltaTime)) {
             enemies.add(appearingSpriteFactory.newEnemy());
         }
-
-        for (Tree tree : trees) {
-            tree.move();
-            if (tree.getXPosition() < 0 - tree.width) {
-                treeRemoval.add(tree);
-            }
-        }
-        for (Tree tree : treeRemoval) trees.remove(tree);
-
         for (Enemy enemy : enemies) {
             enemy.move();
             if (enemy.getXPosition() < 0 - enemy.width) {
@@ -101,9 +99,19 @@ public class GameScreen extends Screen {
             }
         }
         for (Enemy enemy : enemyRemoval) enemies.remove(enemy);
+    }
 
-        otter.move(deltaTime);
-
+    private void updateTrees(float deltaTime) {
+        if (Tree.shouldAppear(deltaTime)) {
+            trees.add(appearingSpriteFactory.newTree());
+        }
+        for (Tree tree : trees) {
+            tree.move();
+            if (tree.getXPosition() < 0 - tree.width) {
+                treeRemoval.add(tree);
+            }
+        }
+        for (Tree tree : treeRemoval) trees.remove(tree);
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
@@ -157,6 +165,8 @@ public class GameScreen extends Screen {
 
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
+        drawOtter(g);
+        drawTrees(g);
 
         g.drawString("Tap to begin. Then tap to jump.",
                 640, 300, paint);
@@ -165,20 +175,9 @@ public class GameScreen extends Screen {
 
     private void drawRunningUI() {
         Graphics g = game.getGraphics();
-
-        for (Tree tree : trees) {
-            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
-        }
-
-        for (Enemy enemy : enemies) {
-            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
-        }
-
-        g.drawScaledImage(Assets.otter,
-                otter.getXPosition(), otter.getYPosition(),
-                otter.getInnerWidth(), otter.height,
-                otter.getInnerRectX(), 0,
-                otter.getInnerWidth(), otter.height);
+        drawTrees(g);
+        drawEnemies(g);
+        drawOtter(g);
     }
 
     private void drawPausedUI() {
@@ -193,6 +192,26 @@ public class GameScreen extends Screen {
         g.drawRect(0, 0, 1281, 801, Color.BLACK);
         g.drawString("GAME OVER.", 640, 300, paint);
 
+    }
+
+    private void drawOtter(Graphics g) {
+        g.drawScaledImage(Assets.otter,
+                otter.getXPosition(), otter.getYPosition(),
+                otter.getInnerWidth(), otter.height,
+                otter.getInnerRectX(), 0,
+                otter.getInnerWidth(), otter.height);
+    }
+
+    private void drawTrees(Graphics g) {
+        for (Tree tree : trees) {
+            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
+        }
+    }
+
+    private void drawEnemies(Graphics g) {
+        for (Enemy enemy : enemies) {
+            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
+        }
     }
 
     private void nullify() {

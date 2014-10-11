@@ -9,7 +9,7 @@ public class Background extends Sprite {
     }
 
     public void update(float deltaTime) {
-        int x = getXPosition();
+        long x = getXPosition();
         setNewXPosition(( x > 2308) ? 0 : x + (getSpeed() * deltaTime));
     }
 

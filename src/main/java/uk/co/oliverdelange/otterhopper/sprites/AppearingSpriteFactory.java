@@ -31,10 +31,10 @@ public class AppearingSpriteFactory {
         );
     }
 
-    private int randomYPosition() {
+    private long randomYPosition() {
         double Low = graphics.getHeight() * 0.5;
         double High = graphics.getHeight() * 0.6;
         double randomPosition = random.nextInt((int) (High-Low)) + Low;
-        return (int) Math.round(randomPosition);
+        return Math.round(randomPosition);
     }
 }

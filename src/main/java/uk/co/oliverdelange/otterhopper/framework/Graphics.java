@@ -94,9 +94,9 @@ public class Graphics {
     }
 
     public void drawString(String text, int x, int y, Paint paint){
+        paint.setTextSize(75f);
+        paint.setColor(Color.BLACK);
         canvas.drawText(text, x, y, paint);
-
-
     }
 
     public void drawImage(AndroidImage androidImage, int x, int y, int srcX, int srcY,
