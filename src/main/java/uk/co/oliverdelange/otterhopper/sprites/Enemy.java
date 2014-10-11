@@ -4,6 +4,9 @@
 
 package uk.co.oliverdelange.otterhopper.sprites;
 
+import uk.co.oliverdelange.otterhopper.Assets;
+import uk.co.oliverdelange.otterhopper.framework.Graphics;
+
 import java.util.Random;
 
 public class Enemy extends Sprite {
@@ -23,5 +26,9 @@ public class Enemy extends Sprite {
         timer += 1*deltaTime;
         if (timer * random.nextInt(10) > 2500) { timer = 0; return true; }
         else { return false; }
+    }
+
+    public void draw(Graphics g) {
+        super.draw(g, Assets.enemy);
     }
 }

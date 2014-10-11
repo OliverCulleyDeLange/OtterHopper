@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OtterHopper</string>
+    <string name="app_name">A-OtterHopper</string>
     <string name="dummy_button">Hop!</string>
     <string name="dummy_content">You are an Otter...</string>
     <string name="resume_button">Resume!</string>

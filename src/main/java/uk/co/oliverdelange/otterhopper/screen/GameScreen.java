@@ -45,6 +45,7 @@ public class GameScreen extends Screen {
         otter = new Otter(Assets.otter, graphics);
         background = new Background(Assets.background);
         appearingSpriteFactory = new AppearingSpriteFactory(graphics);
+
         paint = new Paint();
         paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -94,6 +95,9 @@ public class GameScreen extends Screen {
         }
         for (Enemy enemy : enemies) {
             enemy.move();
+            if (enemy.collidesWith(otter))
+//                state = GameState.GameOver;
+//                System.out.println("COLLISION");
             if (enemy.getXPosition() < 0 - enemy.width) {
                 enemyRemoval.add(enemy);
             }
@@ -144,12 +148,7 @@ public class GameScreen extends Screen {
     public void paint(float deltaTime) {
         Graphics g = game.getGraphics();
 
-        g.drawScaledImage(Assets.background,
-                0, 0, //always only draw what is on screen
-                g.getWidth(), g.getHeight(),
-                background.getXPosition(), 0, //the inner rectangle of the bg
-                background.getInnerWidth(), background.height
-        );
+        background.draw(g);
 
         // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
@@ -165,7 +164,7 @@ public class GameScreen extends Screen {
 
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
-        drawOtter(g);
+        otter.draw(g);
         drawTrees(g);
 
         g.drawString("Tap to begin. Then tap to jump.",
@@ -177,7 +176,7 @@ public class GameScreen extends Screen {
         Graphics g = game.getGraphics();
         drawTrees(g);
         drawEnemies(g);
-        drawOtter(g);
+        otter.draw(g);
     }
 
     private void drawPausedUI() {
@@ -189,28 +188,21 @@ public class GameScreen extends Screen {
 
     private void drawGameOverUI() {
         Graphics g = game.getGraphics();
-        g.drawRect(0, 0, 1281, 801, Color.BLACK);
+        g.drawRect(500, 300, 800, 500, Color.BLACK);
+        paint.setColor(Color.WHITE);
         g.drawString("GAME OVER.", 640, 300, paint);
 
     }
 
-    private void drawOtter(Graphics g) {
-        g.drawScaledImage(Assets.otter,
-                otter.getXPosition(), otter.getYPosition(),
-                otter.getInnerWidth(), otter.height,
-                otter.getInnerRectX(), 0,
-                otter.getInnerWidth(), otter.height);
-    }
-
     private void drawTrees(Graphics g) {
         for (Tree tree : trees) {
-            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
+            tree.draw(g);
         }
     }
 
     private void drawEnemies(Graphics g) {
         for (Enemy enemy : enemies) {
-            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
+            enemy.draw(g);
         }
     }
 

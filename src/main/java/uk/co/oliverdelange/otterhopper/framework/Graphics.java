@@ -134,7 +134,8 @@ public class Graphics {
         dstRect.right = x + width;
         dstRect.bottom = y + height;
 
-
+        paint.setColor(Color.BLUE);
+        canvas.drawRect(dstRect, paint);
 
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
 

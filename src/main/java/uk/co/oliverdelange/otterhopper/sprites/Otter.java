@@ -1,5 +1,6 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
+import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.framework.AndroidImage;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 
@@ -20,7 +21,13 @@ public class Otter extends Sprite {
     private float animationTimer = 0;
 
     public Otter(AndroidImage otter, Graphics graphics) {
-        super(graphics.getWidth() / 5, (int) round(graphics.getHeight() * 0.8), otter.getWidth(), otter.getHeight(), 5);
+        super(
+                graphics.getWidth() / 5,
+                (int) round(graphics.getHeight() * 0.8),
+                otter.getWidth(),
+                otter.getHeight(),
+                5
+        );
         groundYPosition = (int) round(graphics.getHeight() * 0.8);
     }
 
@@ -43,11 +50,11 @@ public class Otter extends Sprite {
         if (animationTimer > 10) {
             if (!hopping) {
                 if (animationFrame == 0) {
-                    animationFrame = spritesOnMap -1;
+                    animationFrame = spritesOnMap - 1;
                 } else {
                     animationFrame--;
                 }
-                animationTimer= 0;
+                animationTimer = 0;
             }
         }
     }
@@ -75,5 +82,13 @@ public class Otter extends Sprite {
 
     public int getInnerWidth() {
         return width / spritesOnMap;
+    }
+
+    public void draw(Graphics g) {
+        g.drawScaledImage(Assets.otter,
+                getXPosition(), getYPosition(),
+                getInnerWidth(), height,
+                getInnerRectX(), 0,
+                getInnerWidth(), height);
     }
 }

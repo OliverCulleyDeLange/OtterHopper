@@ -1,5 +1,8 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
+import uk.co.oliverdelange.otterhopper.framework.AndroidImage;
+import uk.co.oliverdelange.otterhopper.framework.Graphics;
+
 public class Sprite {
 
     private float speed;
@@ -86,5 +89,9 @@ public class Sprite {
                     (l + " cannot be cast to int without changing its value.");
         }
         return (int) l;
+    }
+
+    public void draw(Graphics g, AndroidImage image) {
+        g.drawAndroidImage(image, getXPosition(), getYPosition());
     }
 }

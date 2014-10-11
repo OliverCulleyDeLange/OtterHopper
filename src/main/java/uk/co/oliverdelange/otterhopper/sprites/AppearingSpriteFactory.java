@@ -27,7 +27,7 @@ public class AppearingSpriteFactory {
     public Enemy newEnemy() {
         return new Enemy(
             graphics.getWidth(), (int) round(graphics.getHeight() * 0.8),
-            Assets.tree.getWidth(), Assets.tree.getHeight()
+            Assets.enemy.getWidth(), Assets.enemy.getHeight()
         );
     }
 
