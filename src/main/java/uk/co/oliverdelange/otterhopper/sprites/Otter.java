@@ -9,9 +9,9 @@ public class Otter extends Sprite {
 
     private boolean hopping = false;
 
-    private int yAxisVelocity = 0;
-    private int maximumYAxisVelocity = 1;
-    private int minimumYAxisVelocity = 3;
+    private float yAxisVelocity = 0;
+    private float maximumYAxisVelocity = 2f;
+    private float minimumYAxisVelocity = -4f;
 
     private int groundYPosition;
 
@@ -20,7 +20,7 @@ public class Otter extends Sprite {
     private float animationTimer = 0;
 
     public Otter(AndroidImage otter, Graphics graphics) {
-        super(graphics.getWidth() / 5, (int) round(graphics.getHeight() * 0.8), otter.getWidth(), otter.getHeight());
+        super(graphics.getWidth() / 5, (int) round(graphics.getHeight() * 0.8), otter.getWidth(), otter.getHeight(), 5);
         groundYPosition = (int) round(graphics.getHeight() * 0.8);
     }
 
@@ -33,7 +33,7 @@ public class Otter extends Sprite {
 
     public void move(float delta) {
         if (this.hopping) {
-            applyGravity();
+            applyGravity(delta);
         }
         updateAnimation(delta);
     }
@@ -52,15 +52,15 @@ public class Otter extends Sprite {
         }
     }
 
-    private void applyGravity() {
+    private void applyGravity(float delta) {
         if (this.hopping) {
-            yAxisVelocity += (0.08); //TODO deltaTime dependent
+            yAxisVelocity += (0.08 * delta);
             if (yAxisVelocity >= maximumYAxisVelocity) yAxisVelocity = maximumYAxisVelocity;
             if (yAxisVelocity <= minimumYAxisVelocity) yAxisVelocity = minimumYAxisVelocity;
         } else {
             yAxisVelocity = 0;
         }
-        int newYPosition = this.getYPosition() * yAxisVelocity;
+        float newYPosition = this.getYPosition() + (getSpeed() * yAxisVelocity);
         if (newYPosition >= groundYPosition) {
             newYPosition = groundYPosition;
             hopping = false;

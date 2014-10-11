@@ -2,7 +2,7 @@ package uk.co.oliverdelange.otterhopper.sprites;
 
 public class Sprite {
 
-    private final float speed = 1;
+    private float speed;
     public final int width;
     public final int height;
     private int x, y, r, b ;
@@ -10,6 +10,14 @@ public class Sprite {
     Sprite(int x, int y, int width, int height) {
         this.height = height;
         this.width = width;
+        setNewPosition(x, y);
+        this.speed = 1;
+    }
+
+    Sprite(int x, int y, int width, int height, float speed) {
+        this.height = height;
+        this.width = width;
+        this.speed = speed;
         setNewPosition(x, y);
     }
 
