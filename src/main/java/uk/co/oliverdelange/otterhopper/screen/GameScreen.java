@@ -40,8 +40,8 @@ public class GameScreen extends Screen {
     public GameScreen(AndroidGame game) {
         super(game);
 
-        otter = new Otter();
-        background = new Background();
+        otter = new Otter(Assets.otter, game.getGraphics());
+        background = new Background(Assets.background);
 
         paint = new Paint();
         paint.setTextSize(30);
@@ -93,7 +93,7 @@ public class GameScreen extends Screen {
         for (Enemy enemy : enemies) {
             enemy.move();
         }
-        otter.move();
+        otter.move(deltaTime);
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
@@ -125,7 +125,13 @@ public class GameScreen extends Screen {
     @Override
     public void paint(float deltaTime) {
         Graphics g = game.getGraphics();
-        g.drawAndroidImage(Assets.background, 0, 0);
+
+        g.drawScaledImage(Assets.background,
+                0, 0, //always only draw what is on screen
+                g.getWidth(), g.getHeight(),
+                background.getXPosition(), 0, //the inner rectangle of the bg
+                background.getInnerWidth(), background.height
+        );
 
         // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
@@ -142,7 +148,6 @@ public class GameScreen extends Screen {
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
 
-//        g.drawARGB(155, 0, 0, 0);
         g.drawString("Tap to begin. Then tap to jump.",
                 640, 300, paint);
 
@@ -150,12 +155,18 @@ public class GameScreen extends Screen {
 
     private void drawRunningUI() {
         Graphics g = game.getGraphics();
-        g.drawAndroidImage(Assets.otter, otter.getXPosition(), otter.getYPosition());
+
+        g.drawScaledImage(Assets.otter,
+                otter.getXPosition(), otter.getYPosition(),
+                otter.getInnerWidth(), otter.height,
+                otter.getInnerRectX(), 0,
+                otter.getInnerWidth(), otter.height);
+
         for (Tree tree : trees) {
-            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
+//            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
         }
         for (Enemy enemy : enemies) {
-            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
+//            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
         }
     }
 

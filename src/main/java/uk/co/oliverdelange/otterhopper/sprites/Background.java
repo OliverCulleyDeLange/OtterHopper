@@ -1,15 +1,18 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
-public class Background {
+import uk.co.oliverdelange.otterhopper.framework.AndroidImage;
 
-    private Sprite sprite;
+public class Background extends Sprite {
 
-    public Background() {
-        this.sprite = new Sprite(10,10,10,10);
+    public Background(AndroidImage background) {
+        super(0,0,background.getWidth(), background.getHeight());
     }
 
-
     public void update(float deltaTime) {
-        this.sprite.setNewXPosition( this.sprite.getSpeed() * deltaTime);
+        setNewXPosition( getXPosition() + (getSpeed() * deltaTime));
+    }
+
+    public int getInnerWidth() {
+        return 864; //TODO be clever
     }
 }

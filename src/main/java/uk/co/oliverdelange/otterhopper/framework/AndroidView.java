@@ -51,6 +51,7 @@ public class AndroidView extends SurfaceView implements Runnable {
 
             Canvas canvas = holder.lockCanvas();
             canvas.getClipBounds(dstRect);
+            canvas.drawRGB(0,255,0); // Clear screen
             canvas.drawBitmap(framebuffer, null, dstRect, null);
             holder.unlockCanvasAndPost(canvas);
 
