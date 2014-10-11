@@ -78,7 +78,7 @@ public class Sprite {
         return speed;
     }
 
-    public void moveAlongXAxis(int xAxisVelocity) {
-        this.setNewXPosition( x * xAxisVelocity);
+    public void moveAlongXAxis(float xAxisVelocity) {
+        this.setNewXPosition( x + (speed * xAxisVelocity));
     }
 }

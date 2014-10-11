@@ -4,18 +4,24 @@
 
 package uk.co.oliverdelange.otterhopper.sprites;
 
-public class Enemy extends AppearingSprite {
-    private int xAxisVelocity = -2;
+import java.util.Random;
 
-    public Enemy() {
-        super(200, 100, 50, 50); //TODO do this intelligently based on scale and stuff
+public class Enemy extends Sprite {
+    private int xAxisVelocity = -10;
+    private static long timer = 0;
+    private static Random random = new Random();
+
+    public Enemy(int x, int y, int w, int h) {
+        super(x, y, w, h);
     }
 
     public void move() {
         this.moveAlongXAxis(xAxisVelocity);
     }
 
-    public static Enemy newEnemy() {
-        return new Enemy();
+    public static boolean shouldAppear(float deltaTime) {
+        timer += 1*deltaTime;
+        if (timer * random.nextInt(10) > 2500) { timer = 0; return true; }
+        else { return false; }
     }
 }

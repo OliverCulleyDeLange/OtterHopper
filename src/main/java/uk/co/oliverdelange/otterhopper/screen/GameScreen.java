@@ -2,21 +2,16 @@ package uk.co.oliverdelange.otterhopper.screen;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.framework.AndroidGame;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.framework.Screen;
-import uk.co.oliverdelange.otterhopper.Assets;
-import uk.co.oliverdelange.otterhopper.sprites.Background;
-import uk.co.oliverdelange.otterhopper.sprites.Enemy;
-import uk.co.oliverdelange.otterhopper.sprites.Otter;
-import uk.co.oliverdelange.otterhopper.sprites.Tree;
+import uk.co.oliverdelange.otterhopper.sprites.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static uk.co.oliverdelange.otterhopper.framework.AndroidInput.TouchEvent;
-import static uk.co.oliverdelange.otterhopper.sprites.Enemy.newEnemy;
-import static uk.co.oliverdelange.otterhopper.sprites.Tree.newTree;
 
 
 public class GameScreen extends Screen {
@@ -33,6 +28,7 @@ public class GameScreen extends Screen {
 
     private Otter otter;
     private Background background;
+    private AppearingSpriteFactory appearingSpriteFactory;
     private ArrayList<Tree> trees = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -40,9 +36,10 @@ public class GameScreen extends Screen {
     public GameScreen(AndroidGame game) {
         super(game);
 
-        otter = new Otter(Assets.otter, game.getGraphics());
+        Graphics graphics = game.getGraphics();
+        otter = new Otter(Assets.otter, graphics);
         background = new Background(Assets.background);
-
+        appearingSpriteFactory = new AppearingSpriteFactory(graphics);
         paint = new Paint();
         paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -70,6 +67,8 @@ public class GameScreen extends Screen {
     }
 
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
+        ArrayList<Tree> treeRemoval = new ArrayList<>();
+        ArrayList<Enemy> enemyRemoval = new ArrayList<>();
 
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
@@ -80,20 +79,31 @@ public class GameScreen extends Screen {
         }
 
         background.update(deltaTime);
-        if (Tree.shouldAppear()) {
-            trees.add(newTree());
+        if (Tree.shouldAppear(deltaTime)) {
+            trees.add(appearingSpriteFactory.newTree());
         }
-        if (Enemy.shouldAppear()) {
-            enemies.add(newEnemy());
+        if (Enemy.shouldAppear(deltaTime)) {
+            enemies.add(appearingSpriteFactory.newEnemy());
         }
 
         for (Tree tree : trees) {
             tree.move();
+            if (tree.getXPosition() < 0 - tree.width) {
+                treeRemoval.add(tree);
+            }
         }
+        for (Tree tree : treeRemoval) trees.remove(tree);
+
         for (Enemy enemy : enemies) {
             enemy.move();
+            if (enemy.getXPosition() < 0 - enemy.width) {
+                enemyRemoval.add(enemy);
+            }
         }
+        for (Enemy enemy : enemyRemoval) enemies.remove(enemy);
+
         otter.move(deltaTime);
+
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
@@ -156,18 +166,19 @@ public class GameScreen extends Screen {
     private void drawRunningUI() {
         Graphics g = game.getGraphics();
 
+        for (Tree tree : trees) {
+            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
+        }
+
+        for (Enemy enemy : enemies) {
+            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
+        }
+
         g.drawScaledImage(Assets.otter,
                 otter.getXPosition(), otter.getYPosition(),
                 otter.getInnerWidth(), otter.height,
                 otter.getInnerRectX(), 0,
                 otter.getInnerWidth(), otter.height);
-
-        for (Tree tree : trees) {
-//            g.drawAndroidImage(Assets.tree, tree.getXPosition(), tree.getYPosition());
-        }
-        for (Enemy enemy : enemies) {
-//            g.drawAndroidImage(Assets.enemy, enemy.getXPosition(), enemy.getYPosition());
-        }
     }
 
     private void drawPausedUI() {
