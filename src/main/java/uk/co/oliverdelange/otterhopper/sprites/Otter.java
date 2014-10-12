@@ -24,7 +24,7 @@ public class Otter extends Sprite {
         super(
                 graphics.getWidth() / 5,
                 (int) round(graphics.getHeight() * 0.8),
-                otter.getWidth(),
+                otter.getWidth() / 6,
                 otter.getHeight(),
                 5
         );
@@ -76,19 +76,11 @@ public class Otter extends Sprite {
         this.setNewYPosition(newYPosition);
     }
 
-    public int getInnerRectX() {
-        return getInnerWidth() * animationFrame;
-    }
-
-    public int getInnerWidth() {
-        return width / spritesOnMap;
-    }
-
     public void draw(Graphics g) {
         g.drawScaledImage(Assets.otter,
                 getXPosition(), getYPosition(),
-                getInnerWidth(), height,
-                getInnerRectX(), 0,
-                getInnerWidth(), height);
+                width, height,
+                width * animationFrame, 0,
+                width, height);
     }
 }

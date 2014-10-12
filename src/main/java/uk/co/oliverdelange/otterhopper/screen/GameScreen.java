@@ -97,7 +97,10 @@ public class GameScreen extends Screen {
             enemy.move();
             if (enemy.collidesWith(otter))
 //                state = GameState.GameOver;
+                    enemy.colliding = true;
 //                System.out.println("COLLISION");
+            else enemy.colliding = false;
+
             if (enemy.getXPosition() < 0 - enemy.width) {
                 enemyRemoval.add(enemy);
             }
@@ -164,8 +167,8 @@ public class GameScreen extends Screen {
 
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
-        otter.draw(g);
         drawTrees(g);
+        otter.draw(g);
 
         g.drawString("Tap to begin. Then tap to jump.",
                 640, 300, paint);
