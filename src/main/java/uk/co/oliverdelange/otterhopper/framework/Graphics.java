@@ -122,23 +122,17 @@ public class Graphics {
 
     public void drawScaledImage(AndroidImage image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight){
 
-
         srcRect.left = srcX;
         srcRect.top = srcY;
         srcRect.right = srcX + srcWidth;
         srcRect.bottom = srcY + srcHeight;
-
 
         dstRect.left = x;
         dstRect.top = y;
         dstRect.right = x + width;
         dstRect.bottom = y + height;
 
-//        paint.setColor(Color.BLUE);
-//        canvas.drawRect(dstRect, paint);
-
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
-
     }
 
     public int getWidth() {

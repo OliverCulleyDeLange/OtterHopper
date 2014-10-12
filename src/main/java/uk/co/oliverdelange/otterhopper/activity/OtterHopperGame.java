@@ -19,10 +19,6 @@ public class OtterHopperGame extends AndroidGame {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("Game Activity Created");
-
-//        setContentView(R.layout.activity_otter_hopper_game);
-//        Intent intent = getIntent();
-//        TODO for the future can pass stuff into game activity such as otter costumes and high scores etc
     }
 
     @Override
@@ -35,13 +31,6 @@ public class OtterHopperGame extends AndroidGame {
     public void onResume() {
         super.onResume();
         System.out.println("Game Activity Resumed");
-
-        //TODO how to resume the game?
-//        if (!playingGame) {
-//            Button resume = new Button(this);
-//            resume.setText("Resume!");
-//            this.setContentView(resume);
-//        }
     }
 
     @Override

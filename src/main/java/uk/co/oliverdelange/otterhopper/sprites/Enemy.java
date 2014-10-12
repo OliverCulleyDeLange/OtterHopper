@@ -10,9 +10,13 @@ import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import java.util.Random;
 
 public class Enemy extends Sprite {
+
     private boolean countedForScore;
     private int xAxisVelocity = -10;
-    private static long timer = 2500;
+
+    private static long timerCutOff = 1000;
+    private static long timer = timerCutOff;
+
     private static Random random = new Random();
 
     public Enemy(int x, int y, int w, int h) {
@@ -24,13 +28,13 @@ public class Enemy extends Sprite {
     }
 
     public static boolean shouldAppear(float deltaTime) {
-        timer += 1*deltaTime;
-        if (timer * random.nextInt(10) > 2500) { timer = 0; return true; }
+        timer += deltaTime;
+        if (timer * random.nextInt(10) > timerCutOff) { timer = 0; return true; }
         else { return false; }
     }
 
     public void draw(Graphics g) {
-        super.draw(g, Assets.enemy);
+        super.draw(g, Assets.enemy); //TODO Achievements - new Enemies for different high scores
     }
 
     public boolean hasPassed(Otter otter) {

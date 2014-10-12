@@ -29,7 +29,6 @@ public class GameScreen extends Screen {
 
     private int score = 0;
     private Otter otter;
-
     private Background background;
     private AppearingSpriteFactory appearingSpriteFactory;
     private ArrayList<Tree> trees = new ArrayList<>();

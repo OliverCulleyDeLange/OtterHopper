@@ -6,35 +6,37 @@ import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import java.util.Random;
 
 import static java.lang.Math.round;
+import static uk.co.oliverdelange.otterhopper.util.Conversion.safeLongToInt;
 
 public class AppearingSpriteFactory {
 
     public Graphics graphics;
-    Random random;
+    private Random random = new Random();
+    public int groundLevel;
+
+    private double lowerTreeLimit = 0.5;
+    private double upperTreeLimit = 0.6;
 
     public AppearingSpriteFactory(Graphics graphics) {
         this.graphics = graphics;
-        random = new Random();
+        groundLevel = safeLongToInt(round(graphics.getHeight() * 0.8));
     }
 
     public Tree newTree() {
+        long low = round( graphics.getHeight() * lowerTreeLimit);
+        long high = round(graphics.getHeight() * upperTreeLimit);
+        double randomPosition = random.nextInt(safeLongToInt(high - low)) + low;
+
         return new Tree(
-            graphics.getWidth(), randomYPosition(),
+            graphics.getWidth(), round(randomPosition),
             Assets.tree.getWidth(), Assets.tree.getHeight()
         );
     }
 
     public Enemy newEnemy() {
         return new Enemy(
-            graphics.getWidth(), (int) round(graphics.getHeight() * 0.8),
+            graphics.getWidth(),groundLevel,
             Assets.enemy.getWidth(), Assets.enemy.getHeight()
         );
-    }
-
-    private long randomYPosition() {
-        double Low = graphics.getHeight() * 0.5;
-        double High = graphics.getHeight() * 0.6;
-        double randomPosition = random.nextInt((int) (High-Low)) + Low;
-        return Math.round(randomPosition);
     }
 }

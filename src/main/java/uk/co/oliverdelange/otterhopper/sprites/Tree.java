@@ -19,7 +19,7 @@ public class Tree extends Sprite {
     }
 
     public static boolean shouldAppear(float deltaTime) {
-        timer += 1*deltaTime;
+        timer += Math.round(deltaTime); // deltaTime;
         if (timer * random.nextInt(10) > 2500) { timer = 0; return true; }
         else { return false; }
     }
