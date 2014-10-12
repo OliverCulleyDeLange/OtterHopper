@@ -1,8 +1,11 @@
 package uk.co.oliverdelange.otterhopper.screen;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import uk.co.oliverdelange.otterhopper.Assets;
+import uk.co.oliverdelange.otterhopper.R;
 import uk.co.oliverdelange.otterhopper.framework.AndroidGame;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.framework.Screen;
@@ -24,10 +27,9 @@ public class GameScreen extends Screen {
     GameState state = GameState.Ready;
 
     Paint paint;
-
-    private int highScore = 999; // TODO save game high score somehow
-
+    private SharedPreferences preferences;
     private int score = 0;
+    private int highScore = 0;
     private Otter otter;
     private Background background;
     private AppearingSpriteFactory appearingSpriteFactory;
@@ -39,6 +41,9 @@ public class GameScreen extends Screen {
 
     public GameScreen(AndroidGame game) {
         super(game);
+
+        preferences = game.getPreferences(Context.MODE_PRIVATE);
+        highScore = preferences.getInt(game.getString(R.string.saved_high_score), 0);
 
         Graphics graphics = game.getGraphics();
         otter = new Otter(Assets.otter, graphics);
@@ -132,9 +137,15 @@ public class GameScreen extends Screen {
         for (int i = 0; i < touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_UP) {
+                if (score > highScore){
+                    highScore = score;
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putInt(game.getString(R.string.saved_high_score), highScore);
+                    editor.commit();
+                }
                 score = 0;
                 enemies.clear();
-                state = GameState.Running;
+                state = GameState.Ready;
             }
         }
     }
@@ -148,7 +159,6 @@ public class GameScreen extends Screen {
         drawEnemies(g);
         otter.draw(g);
 
-        // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
             drawReadyUI(g);
         if (state == GameState.Running)
@@ -161,8 +171,8 @@ public class GameScreen extends Screen {
     }
 
     private void drawReadyUI(Graphics g) {
-        g.drawString("Tap to begin. Then tap to jump.",
-                640, 300, paint);
+        g.drawString("Tap to begin. Then tap to jump.", 640, 300, paint);
+        g.drawString("High score:" + highScore, 640, 200, paint);
 
     }
 

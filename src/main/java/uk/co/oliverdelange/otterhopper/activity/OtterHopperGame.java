@@ -7,6 +7,7 @@ import uk.co.oliverdelange.otterhopper.screen.LoadingScreen;
 
 public class OtterHopperGame extends AndroidGame {
 
+    public int highScore;
 
     @Override
     public Screen getInitScreen() {
