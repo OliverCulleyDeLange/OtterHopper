@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Tree extends Sprite {
     private float xAxisVelocity = -2f;
-    private static long timer = 0;
+    private static long timer = 2500;
     private static Random random = new Random();
 
     Tree(long x, long y, int w, int h) {

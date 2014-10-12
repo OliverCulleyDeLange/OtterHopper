@@ -96,14 +96,13 @@ public class GameScreen extends Screen {
         for (Enemy enemy : enemies) {
             enemy.move();
             if (enemy.collidesWith(otter))
-//                state = GameState.GameOver;
-                    enemy.colliding = true;
-//                System.out.println("COLLISION");
-            else enemy.colliding = false;
-
-            if (enemy.getXPosition() < 0 - enemy.width) {
-                enemyRemoval.add(enemy);
+                state = GameState.GameOver;
+            if (enemy.hasPassed(otter)) {
+                score++;
+                enemy.hasBeenCounted();
             }
+            if (enemy.getXPosition() < 0 - enemy.width)
+                enemyRemoval.add(enemy);
         }
         for (Enemy enemy : enemyRemoval) enemies.remove(enemy);
     }
@@ -122,8 +121,7 @@ public class GameScreen extends Screen {
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
-        int len = touchEvents.size();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i <  touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_UP) {
                 state = GameState.Running;
@@ -132,19 +130,14 @@ public class GameScreen extends Screen {
     }
 
     private void updateGameOver(List<TouchEvent> touchEvents) {
-        int len = touchEvents.size();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_UP) {
-                if (event.x > 300 && event.x < 980 && event.y > 100
-                        && event.y < 500) {
-                    nullify();
-//                    game.setScreen(new MainMenuScreen(game));
-                    return;
-                }
+                score = 0;
+                enemies.clear();
+                state = GameState.Running;
             }
         }
-
     }
 
     @Override
@@ -152,51 +145,39 @@ public class GameScreen extends Screen {
         Graphics g = game.getGraphics();
 
         background.draw(g);
+        drawTrees(g);
+        drawEnemies(g);
+        otter.draw(g);
 
         // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
-            drawReadyUI();
+            drawReadyUI(g);
         if (state == GameState.Running)
-            drawRunningUI();
+            drawRunningUI(g);
         if (state == GameState.Paused)
-            drawPausedUI();
+            drawPausedUI(g);
         if (state == GameState.GameOver)
-            drawGameOverUI();
+            drawGameOverUI(g);
 
     }
 
-    private void drawReadyUI() {
-        Graphics g = game.getGraphics();
-        drawTrees(g);
-        otter.draw(g);
-
+    private void drawReadyUI(Graphics g) {
         g.drawString("Tap to begin. Then tap to jump.",
                 640, 300, paint);
 
     }
 
-    private void drawRunningUI() {
-        Graphics g = game.getGraphics();
-        drawTrees(g);
-        drawEnemies(g);
-        otter.draw(g);
+    private void drawRunningUI(Graphics g) {
+        g.drawString("Score: " + score, 640, 300, paint);
     }
 
-    private void drawPausedUI() {
-        Graphics g = game.getGraphics();
-        drawTrees(g);
-        drawEnemies(g);
-        otter.draw(g);
+    private void drawPausedUI(Graphics g) {
         g.drawString("Tap to Resume.",
                 640, 300, paint);
     }
 
-    private void drawGameOverUI() {
-        Graphics g = game.getGraphics();
-        g.drawRect(500, 300, 800, 500, Color.BLACK);
-        paint.setColor(Color.WHITE);
+    private void drawGameOverUI(Graphics g) {
         g.drawString("GAME OVER.", 640, 300, paint);
-
     }
 
     private void drawTrees(Graphics g) {
