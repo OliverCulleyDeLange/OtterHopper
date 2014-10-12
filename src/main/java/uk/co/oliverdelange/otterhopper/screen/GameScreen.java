@@ -126,7 +126,7 @@ public class GameScreen extends Screen {
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_UP) {
-
+                state = GameState.Running;
             }
         }
     }
@@ -184,9 +184,11 @@ public class GameScreen extends Screen {
 
     private void drawPausedUI() {
         Graphics g = game.getGraphics();
-        // Darken the entire screen so you can display the Paused screen.
-        g.drawARGB(155, 0, 0, 0);
-
+        drawTrees(g);
+        drawEnemies(g);
+        otter.draw(g);
+        g.drawString("Tap to Resume.",
+                640, 300, paint);
     }
 
     private void drawGameOverUI() {
@@ -221,7 +223,6 @@ public class GameScreen extends Screen {
     public void pause() {
         if (state == GameState.Running)
             state = GameState.Paused;
-
     }
 
     @Override

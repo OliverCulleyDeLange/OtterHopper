@@ -49,4 +49,21 @@ public class OtterHopperGame extends AndroidGame {
         super.onPause();
         System.out.println("Game Activity Paused");
     }
+
+    @Override
+    public void onStop() {
+        super.onPause();
+        System.out.println("Game Activity Stopped");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onPause();
+        System.out.println("Game Activity Destroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        getCurrentScreen().backButton();
+    }
 }

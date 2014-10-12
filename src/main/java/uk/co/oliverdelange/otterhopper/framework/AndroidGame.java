@@ -13,7 +13,6 @@ public abstract class AndroidGame extends Activity implements Game {
     Graphics graphics;
     AndroidInput input;
     Screen screen;
-//    WakeLock wakeLock;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +21,8 @@ public abstract class AndroidGame extends Activity implements Game {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
             boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
             int frameBufferWidth = isPortrait ? 800: 1280;
@@ -40,14 +41,11 @@ public abstract class AndroidGame extends Activity implements Game {
             screen = getInitScreen();
             setContentView(renderView);
 
-//            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//            wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
         }
 
         @Override
         public void onResume() {
             super.onResume();
-//            wakeLock.acquire();
             screen.resume();
             renderView.resume();
         }
@@ -55,7 +53,6 @@ public abstract class AndroidGame extends Activity implements Game {
         @Override
         public void onPause() {
             super.onPause();
-//            wakeLock.release();
             renderView.pause();
             screen.pause();
 
@@ -66,7 +63,6 @@ public abstract class AndroidGame extends Activity implements Game {
         public AndroidInput getInput() {
             return input;
         }
-
 
         public Graphics getGraphics() {
             return graphics;
