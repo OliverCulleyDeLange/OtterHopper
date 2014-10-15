@@ -34,6 +34,7 @@ public class Enemy extends Sprite {
     }
 
     public void draw(Graphics g) {
+//        g.drawRect(getXPosition(), getYPosition(), width, height, Color.RED);
         super.draw(g, Assets.enemy); //TODO Achievements - new Enemies for different high scores
     }
 

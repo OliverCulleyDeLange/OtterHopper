@@ -88,6 +88,21 @@ public class Graphics {
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
     }
 
+    public void drawRect(int x, int y, int width, int height, int gradientColour1, int gradientColour2) {
+        paint.setShader(new LinearGradient(0, 0, 0, getHeight(), gradientColour1, gradientColour2, Shader.TileMode.MIRROR));
+        paint.setStyle(Style.FILL);
+        canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
+        paint.setShader(null);
+    }
+
+    public void drawShape(int x, int y, int width, int height) {
+        paint.setShader(new LinearGradient(0,0, 0, height, Color.LTGRAY, Color.WHITE, Shader.TileMode.MIRROR));
+        canvas.drawRect(x, y, x + width, y + height, paint);
+        Path path = new Path();
+//        path.
+//        canvas.drawPath(path, paint);
+    }
+
     public void drawARGB(int a, int r, int g, int b) {
         paint.setStyle(Style.FILL);
         canvas.drawARGB(a, r, g, b);
@@ -131,6 +146,9 @@ public class Graphics {
         dstRect.top = y;
         dstRect.right = x + width;
         dstRect.bottom = y + height;
+
+//        paint.setColor(Color.BLUE);
+//        canvas.drawRect(dstRect,paint);
 
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
     }

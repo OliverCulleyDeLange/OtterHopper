@@ -76,7 +76,7 @@ public class GameScreen extends Screen {
             state = GameState.Running;
 
         otter.move(deltaTime);
-        background.update(deltaTime);
+        background.update(appearingSpriteFactory, deltaTime);
         updateTrees(deltaTime);
     }
 
@@ -88,7 +88,7 @@ public class GameScreen extends Screen {
             }
         }
         otter.move(deltaTime);
-        background.update(deltaTime);
+        background.update(appearingSpriteFactory, deltaTime);
         updateTrees(deltaTime);
         updateEnemies(deltaTime);
     }
@@ -153,6 +153,7 @@ public class GameScreen extends Screen {
     @Override
     public void paint(float deltaTime) {
         Graphics g = game.getGraphics();
+        g.drawARGB(255,0,0,255); //wipe scren and draw blue
 
         background.draw(g);
         drawTrees(g);

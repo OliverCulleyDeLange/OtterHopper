@@ -16,7 +16,6 @@ public class LoadingScreen extends Screen {
 
         Graphics g = game.getGraphics();
         Assets.tree = g.newImage("img/tree_trans.png", Graphics.ImageFormat.RGB565);
-        Assets.background = g.newImage("img/landscape.png", Graphics.ImageFormat.RGB565);
         Assets.enemy = g.newImage("img/clefable.png", Graphics.ImageFormat.RGB565);
         Assets.otter = g.newImage("img/newOtter.png", Graphics.ImageFormat.RGB565);
 
