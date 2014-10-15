@@ -47,7 +47,7 @@ public class GameScreen extends Screen {
 
         Graphics graphics = game.getGraphics();
         otter = new Otter(Assets.otter, graphics);
-        background = new Background(Assets.background);
+        background = new Background();
         appearingSpriteFactory = new AppearingSpriteFactory(graphics);
 
         paint = new Paint();
