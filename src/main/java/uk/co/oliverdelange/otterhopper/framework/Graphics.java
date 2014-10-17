@@ -88,8 +88,8 @@ public class Graphics {
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
     }
 
-    public void drawRect(int x, int y, int width, int height, int gradientColour1, int gradientColour2) {
-        paint.setShader(new LinearGradient(0, 0, 0, getHeight(), gradientColour1, gradientColour2, Shader.TileMode.MIRROR));
+    public void drawRectVerticalGradient(int x, int y, int width, int height, int gradientColour1, int gradientColour2) {
+        paint.setShader(new LinearGradient(x, y, x, y+height, gradientColour1, gradientColour2, Shader.TileMode.MIRROR));
         paint.setStyle(Style.FILL);
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
         paint.setShader(null);
@@ -148,7 +148,7 @@ public class Graphics {
         dstRect.bottom = y + height;
 
 //        paint.setColor(Color.BLUE);
-//        canvas.drawRect(dstRect,paint);
+//        canvas.drawRectVerticalGradient(dstRect,paint);
 
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
     }

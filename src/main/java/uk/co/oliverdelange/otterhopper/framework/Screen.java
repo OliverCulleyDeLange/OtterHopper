@@ -9,7 +9,7 @@ public abstract class Screen {
 
     public abstract void update(float deltaTime);
 
-    public abstract void paint(float deltaTime);
+    public abstract void paint();
 
     public abstract void pause();
 

@@ -12,7 +12,7 @@ import java.util.Random;
 public class Enemy extends Sprite {
 
     private boolean countedForScore;
-    private int xAxisVelocity = -10;
+    private int xAxisVelocity = -8;
 
     private static long timerCutOff = 1000;
     private static long timer = timerCutOff;
@@ -23,8 +23,8 @@ public class Enemy extends Sprite {
         super(x, y, w, h);
     }
 
-    public void move() {
-        this.moveAlongXAxis(xAxisVelocity);
+    public void move(float deltaTime) {
+        this.moveAlongXAxis(xAxisVelocity, deltaTime);
     }
 
     public static boolean shouldAppear(float deltaTime) {

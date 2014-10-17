@@ -7,15 +7,15 @@ import java.util.Random;
 public class Cloud extends Sprite{
 
     Cloud(int x, int y, int width, int height) {
-        super(x, y, width, height, 3);
+        super(x, y, width, height, 2);
     }
 
-    private float xAxisVelocity = -2f;
+    private float xAxisVelocity = -1f;
     private static long timer = 2500;
     private static Random random = new Random();
 
-    public void move() {
-        this.moveAlongXAxis(xAxisVelocity);
+    public void move(float deltaTime) {
+        this.moveAlongXAxis(xAxisVelocity, deltaTime);
     }
 
     public static boolean shouldAppear(float deltaTime) {

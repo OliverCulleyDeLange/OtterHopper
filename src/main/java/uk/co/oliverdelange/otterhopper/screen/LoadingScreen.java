@@ -23,7 +23,7 @@ public class LoadingScreen extends Screen {
     }
 
     @Override
-    public void paint(float deltaTime) {
+    public void paint() {
 
     }
 

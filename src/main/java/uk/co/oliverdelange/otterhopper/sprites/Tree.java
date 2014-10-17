@@ -14,8 +14,8 @@ public class Tree extends Sprite {
         super(x, y, w, h);
     }
 
-    public void move() {
-        this.moveAlongXAxis(xAxisVelocity);
+    public void move(float deltaTime) {
+        this.moveAlongXAxis(xAxisVelocity, deltaTime);
     }
 
     public static boolean shouldAppear(float deltaTime) {

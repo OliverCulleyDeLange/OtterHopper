@@ -33,9 +33,8 @@ public class GameScreen extends Screen {
     private Otter otter;
     private Background background;
     private AppearingSpriteFactory appearingSpriteFactory;
-    private ArrayList<Tree> trees = new ArrayList<>();
+
     private ArrayList<Enemy> enemies = new ArrayList<>();
-    private final ArrayList<Tree> treeRemoval = new ArrayList<>();
     private final ArrayList<Enemy> enemyRemoval = new ArrayList<>();
 
 
@@ -77,7 +76,6 @@ public class GameScreen extends Screen {
 
         otter.move(deltaTime);
         background.update(appearingSpriteFactory, deltaTime);
-        updateTrees(deltaTime);
     }
 
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
@@ -89,7 +87,6 @@ public class GameScreen extends Screen {
         }
         otter.move(deltaTime);
         background.update(appearingSpriteFactory, deltaTime);
-        updateTrees(deltaTime);
         updateEnemies(deltaTime);
     }
 
@@ -98,7 +95,7 @@ public class GameScreen extends Screen {
             enemies.add(appearingSpriteFactory.newEnemy());
         }
         for (Enemy enemy : enemies) {
-            enemy.move();
+            enemy.move(deltaTime);
             if (enemy.collidesWith(otter))
                 state = GameState.GameOver;
             if (enemy.hasPassed(otter)) {
@@ -109,19 +106,6 @@ public class GameScreen extends Screen {
                 enemyRemoval.add(enemy);
         }
         for (Enemy enemy : enemyRemoval) enemies.remove(enemy);
-    }
-
-    private void updateTrees(float deltaTime) {
-        if (Tree.shouldAppear(deltaTime)) {
-            trees.add(appearingSpriteFactory.newTree());
-        }
-        for (Tree tree : trees) {
-            tree.move();
-            if (tree.getXPosition() < 0 - tree.width) {
-                treeRemoval.add(tree);
-            }
-        }
-        for (Tree tree : treeRemoval) trees.remove(tree);
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
@@ -151,12 +135,11 @@ public class GameScreen extends Screen {
     }
 
     @Override
-    public void paint(float deltaTime) {
+    public void paint() {
         Graphics g = game.getGraphics();
         g.drawARGB(255,0,0,255); //wipe scren and draw blue
 
         background.draw(g);
-        drawTrees(g);
         drawEnemies(g);
         otter.draw(g);
 
@@ -188,12 +171,6 @@ public class GameScreen extends Screen {
 
     private void drawGameOverUI(Graphics g) {
         g.drawString("GAME OVER.", 640, 300, paint);
-    }
-
-    private void drawTrees(Graphics g) {
-        for (Tree tree : trees) {
-            tree.draw(g);
-        }
     }
 
     private void drawEnemies(Graphics g) {

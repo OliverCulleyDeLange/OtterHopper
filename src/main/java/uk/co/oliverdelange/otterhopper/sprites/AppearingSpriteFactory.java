@@ -16,8 +16,8 @@ public class AppearingSpriteFactory {
     public int screenWidth;
     public int screenHeight;
 
-    private double lowerTreeLimit = 0.3;
-    private double upperTreeLimit = 0.5;
+    private double lowerTreeLimit = 0.4;
+    private double upperTreeLimit = 0.6;
     private double lowerCloudLimit = 0;
     private double upperCloudLimit = 0.3;
 

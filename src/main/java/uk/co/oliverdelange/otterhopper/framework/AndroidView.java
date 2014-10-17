@@ -45,7 +45,7 @@ public class AndroidView extends SurfaceView implements Runnable {
 
 
             game.getCurrentScreen().update(deltaTime);
-            game.getCurrentScreen().paint(deltaTime);
+            game.getCurrentScreen().paint();
 
 
 

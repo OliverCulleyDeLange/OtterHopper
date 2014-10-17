@@ -80,8 +80,8 @@ public class Sprite {
         return speed;
     }
 
-    public void moveAlongXAxis(float xAxisVelocity) {
-        this.setNewXPosition( x + (speed * xAxisVelocity));
+    public void moveAlongXAxis(float xAxisVelocity, float deltaTime) {
+        this.setNewXPosition( x + (speed * xAxisVelocity) * deltaTime);
     }
 
     public void draw(Graphics g, AndroidImage image) {

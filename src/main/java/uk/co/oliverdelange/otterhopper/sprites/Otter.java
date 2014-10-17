@@ -61,13 +61,13 @@ public class Otter extends Sprite {
 
     private void applyGravity(float delta) {
         if (this.hopping) {
-            yAxisVelocity += (0.08 * delta);
+            yAxisVelocity += (0.13 * delta);
             if (yAxisVelocity >= maximumYAxisVelocity) yAxisVelocity = maximumYAxisVelocity;
             if (yAxisVelocity <= minimumYAxisVelocity) yAxisVelocity = minimumYAxisVelocity;
         } else {
             yAxisVelocity = 0;
         }
-        float newYPosition = this.getYPosition() + (getSpeed() * yAxisVelocity);
+        float newYPosition = this.getYPosition() + (getSpeed() * yAxisVelocity) * delta;
         if (newYPosition >= groundYPosition) {
             newYPosition = groundYPosition;
             hopping = false;
