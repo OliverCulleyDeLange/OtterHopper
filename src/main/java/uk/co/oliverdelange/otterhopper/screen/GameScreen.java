@@ -11,7 +11,6 @@ import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.framework.Screen;
 import uk.co.oliverdelange.otterhopper.sprites.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static uk.co.oliverdelange.otterhopper.framework.AndroidInput.TouchEvent;
@@ -32,11 +31,7 @@ public class GameScreen extends Screen {
     private int highScore = 0;
     private Otter otter;
     private Background background;
-    private AppearingSpriteFactory appearingSpriteFactory;
-
-    private ArrayList<Enemy> enemies = new ArrayList<>();
-    private final ArrayList<Enemy> enemyRemoval = new ArrayList<>();
-
+    private AppearingSpritePool appearingSpritePool;
 
     public GameScreen(AndroidGame game) {
         super(game);
@@ -46,8 +41,8 @@ public class GameScreen extends Screen {
 
         Graphics graphics = game.getGraphics();
         otter = new Otter(Assets.otter, graphics);
-        background = new Background();
-        appearingSpriteFactory = new AppearingSpriteFactory(graphics);
+        appearingSpritePool = new AppearingSpritePool(graphics);
+        background = new Background(appearingSpritePool);
 
         paint = new Paint();
         paint.setTextSize(30);
@@ -74,38 +69,31 @@ public class GameScreen extends Screen {
         if (touchEvents.size() > 0)
             state = GameState.Running;
 
-        otter.move(deltaTime);
-        background.update(appearingSpriteFactory, deltaTime);
+        otter.move(deltaTime, touchEvents);
+        background.update(deltaTime);
     }
 
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
-        for (int i = 0; i < touchEvents.size(); i++) {
-            TouchEvent event = touchEvents.get(i);
-            if (event.type == TouchEvent.TOUCH_DOWN) {
-                otter.hop();
-            }
-        }
-        otter.move(deltaTime);
-        background.update(appearingSpriteFactory, deltaTime);
+        otter.move(deltaTime, touchEvents);
+        background.update(deltaTime);
         updateEnemies(deltaTime);
     }
 
     private void updateEnemies(float deltaTime) {
         if (Enemy.shouldAppear(deltaTime)) {
-            enemies.add(appearingSpriteFactory.newEnemy());
+            appearingSpritePool.useEnemy();
         }
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : appearingSpritePool.getEnemies()) {
             enemy.move(deltaTime);
-            if (enemy.collidesWith(otter))
+            if (enemy.boxCollidesWith(otter))
                 state = GameState.GameOver;
             if (enemy.hasPassed(otter)) {
                 score++;
                 enemy.hasBeenCounted();
             }
             if (enemy.getXPosition() < 0 - enemy.width)
-                enemyRemoval.add(enemy);
+                appearingSpritePool.freeEnemy(enemy);
         }
-        for (Enemy enemy : enemyRemoval) enemies.remove(enemy);
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
@@ -128,7 +116,7 @@ public class GameScreen extends Screen {
                     editor.commit();
                 }
                 score = 0;
-                enemies.clear();
+                appearingSpritePool.resetEnemies();
                 state = GameState.Ready;
             }
         }
@@ -137,7 +125,7 @@ public class GameScreen extends Screen {
     @Override
     public void paint() {
         Graphics g = game.getGraphics();
-        g.drawARGB(255,0,0,255); //wipe scren and draw blue
+        g.drawARGB(255, 0, 0, 255); //wipe scren and draw blue
 
         background.draw(g);
         drawEnemies(g);
@@ -174,7 +162,7 @@ public class GameScreen extends Screen {
     }
 
     private void drawEnemies(Graphics g) {
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : appearingSpritePool.getEnemies()) {
             enemy.draw(g);
         }
     }

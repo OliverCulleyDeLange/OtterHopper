@@ -4,7 +4,7 @@ import uk.co.oliverdelange.otterhopper.framework.AndroidImage;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.util.Conversion;
 
-public class Sprite {
+public abstract class Sprite {
 
     private float speed;
     public final int width;
@@ -28,7 +28,7 @@ public class Sprite {
         setNewPosition(x, y);
     }
 
-    public boolean collidesWith(Sprite sprite) {
+    public boolean boxCollidesWith(Sprite sprite) {
         return  !(
                 sprite.r <= this.x ||
                 sprite.x > this.r  ||

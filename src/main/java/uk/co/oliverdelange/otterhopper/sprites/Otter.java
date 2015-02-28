@@ -2,7 +2,10 @@ package uk.co.oliverdelange.otterhopper.sprites;
 
 import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.framework.AndroidImage;
+import uk.co.oliverdelange.otterhopper.framework.AndroidInput;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
+
+import java.util.List;
 
 import static java.lang.Math.round;
 
@@ -31,18 +34,23 @@ public class Otter extends Sprite {
         groundYPosition = (int) round(graphics.getHeight() * 0.8);
     }
 
+    public void move(float delta, List<AndroidInput.TouchEvent> touchEvents) {
+        for (AndroidInput.TouchEvent event : touchEvents) {
+            if (event.type == AndroidInput.TouchEvent.TOUCH_DOWN) {
+                hop();
+            }
+        }
+        if (this.hopping) {
+            applyGravity(delta);
+        }
+        updateAnimation(delta);
+    }
+
     public void hop() {
         if (!hopping) {
             this.hopping = true;
             yAxisVelocity = minimumYAxisVelocity;
         }
-    }
-
-    public void move(float delta) {
-        if (this.hopping) {
-            applyGravity(delta);
-        }
-        updateAnimation(delta);
     }
 
     private void updateAnimation(float delta) {

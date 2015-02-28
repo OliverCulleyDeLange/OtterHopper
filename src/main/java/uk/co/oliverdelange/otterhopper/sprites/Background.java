@@ -4,48 +4,54 @@ import android.graphics.Color;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.util.Conversion;
 
-import java.util.ArrayList;
-
 import static java.lang.Math.round;
 
 public class Background {
+    
+    private final AppearingSpritePool appearingSpritePool;
 
-    private final ArrayList<Cloud> clouds = new ArrayList<>();
-    private final ArrayList<Cloud> cloudRemoval = new ArrayList<>();
-
-    private final ArrayList<Tree> trees = new ArrayList<>();
-    private final ArrayList<Tree> treeRemoval = new ArrayList<>();
-
-    public void update(AppearingSpriteFactory appearingSpriteFactory, float deltaTime) {
-        updateClouds(appearingSpriteFactory, deltaTime);
-        updateTrees(appearingSpriteFactory, deltaTime);
+    public Background(AppearingSpritePool appearingSpritePool) {
+        this.appearingSpritePool = appearingSpritePool;
     }
 
-    private void updateClouds(AppearingSpriteFactory appearingSpriteFactory, float deltaTime) {
+    public void update(float deltaTime) {
+        updateClouds(deltaTime);
+        updateTrees(deltaTime);
+    }
+
+    private void updateClouds(float deltaTime) {
         if (Cloud.shouldAppear(deltaTime)){
-            clouds.add(appearingSpriteFactory.newCloud());
+            try {
+                appearingSpritePool.useCloud();
+            } catch (IndexOutOfBoundsException e) {
+//                logger.log("Ran out of trees to use! Maybe consider increasing the maximum!");
+                //TODO Logging!
+            }
         }
 
-        for (Cloud cloud : clouds) {
+        for (Cloud cloud : appearingSpritePool.getClouds()) {
             cloud.move(deltaTime);
             if (cloud.getXPosition() < 0 - cloud.width) {
-                cloudRemoval.add(cloud);
+                appearingSpritePool.freeCloud(cloud);
             }
         }
-        for (Cloud cloud : cloudRemoval) clouds.remove(cloud);
     }
 
-    private void updateTrees(AppearingSpriteFactory appearingSpriteFactory, final float deltaTime) {
+    private void updateTrees(final float deltaTime) {
         if (Tree.shouldAppear(deltaTime)) {
-            trees.add(appearingSpriteFactory.newTree());
-        }
-        for (Tree tree : trees) {
-            tree.move(deltaTime);
-            if (tree.getXPosition() < 0 - tree.width) {
-                treeRemoval.add(tree);
+            try {
+                appearingSpritePool.useTree();
+            } catch (IndexOutOfBoundsException e) {
+//                logger.log("Ran out of trees to use! Maybe consider increasing the maximum!");
+                //TODO Logging!
             }
         }
-        for (Tree tree : treeRemoval) trees.remove(tree);
+        for (Tree tree : appearingSpritePool.getTrees()) {
+            tree.move(deltaTime);
+            if (tree.getXPosition() < 0 - tree.width) {
+                appearingSpritePool.freeTree(tree);
+            }
+        }
     }
 
 
@@ -66,13 +72,13 @@ public class Background {
     }
 
     private void drawTrees(Graphics g) {
-        for (Tree tree : trees) {
+        for (Tree tree : appearingSpritePool.getTrees()) {
             tree.draw(g);
         }
     }
 
     private void drawClouds(Graphics g) {
-        for (Cloud cloud : clouds) {
+        for (Cloud cloud : appearingSpritePool.getClouds()) {
             cloud.draw(g);
         }
     }
