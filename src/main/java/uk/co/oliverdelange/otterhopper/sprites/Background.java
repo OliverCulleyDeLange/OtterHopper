@@ -1,6 +1,7 @@
 package uk.co.oliverdelange.otterhopper.sprites;
 
 import android.graphics.Color;
+import android.util.Log;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.util.Conversion;
 
@@ -24,8 +25,7 @@ public class Background {
             try {
                 appearingSpritePool.useCloud();
             } catch (IndexOutOfBoundsException e) {
-//                logger.log("Ran out of trees to use! Maybe consider increasing the maximum!");
-                //TODO Logging!
+                Log.e("Sprites", "Ran out of available cloud sprites! Maybe consider increasing the maximum!");
             }
         }
 
@@ -42,8 +42,8 @@ public class Background {
             try {
                 appearingSpritePool.useTree();
             } catch (IndexOutOfBoundsException e) {
-//                logger.log("Ran out of trees to use! Maybe consider increasing the maximum!");
-                //TODO Logging!
+                Log.e("Sprites", "Ran out of available tree sprites! Maybe consider increasing the maximum!");
+
             }
         }
         for (Tree tree : appearingSpritePool.getTrees()) {
