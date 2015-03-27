@@ -37,6 +37,10 @@ public abstract class Sprite {
         );
     }
 
+    public boolean detailCollidesWith(Sprite sprite) {
+        return true; //TODO More advanced collision detection!
+    }
+
     public void setNewXPosition(float xd) {
         setNewXPosition(Math.round(xd));
     }

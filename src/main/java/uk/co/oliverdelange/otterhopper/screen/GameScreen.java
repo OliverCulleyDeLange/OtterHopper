@@ -91,7 +91,9 @@ public class GameScreen extends Screen {
         for (Enemy enemy : appearingSpritePool.getEnemies()) {
             enemy.move(deltaTime);
             if (enemy.boxCollidesWith(otter))
-                state = GameState.GameOver;
+                if (enemy.detailCollidesWith(otter)) {
+                    state = GameState.GameOver;
+                }
             if (enemy.hasPassed(otter)) {
                 score++;
                 enemy.hasBeenCounted();
