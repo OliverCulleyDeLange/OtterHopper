@@ -27,4 +27,9 @@ public class Tree extends Sprite {
     public void draw(Graphics g) {
         super.draw(g, Assets.tree);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

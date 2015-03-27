@@ -87,4 +87,6 @@ public abstract class Sprite {
     public void draw(Graphics g, AndroidImage image) {
         g.drawAndroidImage(image, getXPosition(), getYPosition());
     }
+
+    public abstract void reset();
 }

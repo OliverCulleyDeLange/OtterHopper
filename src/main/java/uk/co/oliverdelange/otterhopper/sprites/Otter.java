@@ -91,4 +91,9 @@ public class Otter extends Sprite {
                 width * animationFrame, 0,
                 width, height);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

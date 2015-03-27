@@ -28,6 +28,7 @@ public class SpritePool<T extends Sprite> {
     protected void freeSpritesToBeFreed() {
         if (!spritesToBeFreed.isEmpty()) {
             for (T sprite : spritesToBeFreed) {
+                sprite.reset();
                 spritesInUse.remove(sprite);
                 freeSprites.add(sprite);
             }

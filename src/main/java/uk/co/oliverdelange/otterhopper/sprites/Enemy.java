@@ -45,4 +45,8 @@ public class Enemy extends Sprite {
     public void hasBeenCounted() {
         countedForScore = true;
     }
+
+    public void reset() {
+        this.countedForScore = false;
+    }
 }

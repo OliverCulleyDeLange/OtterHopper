@@ -27,4 +27,9 @@ public class Cloud extends Sprite{
     public void draw(Graphics g) {
         g.drawShape(getXPosition(), getYPosition(), width, height);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }
