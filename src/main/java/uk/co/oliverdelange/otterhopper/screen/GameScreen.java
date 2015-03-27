@@ -33,6 +33,8 @@ public class GameScreen extends Screen {
     private Background background;
     private AppearingSpritePool appearingSpritePool;
 
+    private long enemyTracker;
+
     public GameScreen(AndroidGame game) {
         super(game);
 
@@ -81,6 +83,9 @@ public class GameScreen extends Screen {
 
     private void updateEnemies(float deltaTime) {
         if (Enemy.shouldAppear(deltaTime)) {
+            long time = System.currentTimeMillis();
+            System.out.println("A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
+            enemyTracker = time;
             appearingSpritePool.useEnemy();
         }
         for (Enemy enemy : appearingSpritePool.getEnemies()) {

@@ -14,8 +14,9 @@ public class Enemy extends Sprite {
     private boolean countedForScore;
     private int xAxisVelocity = -8;
 
-    private static long timerCutOff = 1000;
-    private static long timer = timerCutOff;
+    private static long lowMillisecondGap = 1000;
+    private static float randomMultiplier;
+    private static long lastAppeared;
 
     private static Random random = new Random();
 
@@ -28,9 +29,16 @@ public class Enemy extends Sprite {
     }
 
     public static boolean shouldAppear(float deltaTime) {
-        timer += deltaTime;
-        if (timer * random.nextInt(10) > timerCutOff) { timer = 0; return true; }
-        else { return false; }
+        long time = System.currentTimeMillis(); //1000 millis to a second
+
+        if ((time - lastAppeared) > lowMillisecondGap * randomMultiplier) {
+            lastAppeared = time;
+            randomMultiplier = 1 + random.nextFloat();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void draw(Graphics g) {
