@@ -16,12 +16,13 @@ public class Background {
     }
 
     public void update(float deltaTime) {
+        // TODO {Graphics] Randomise the terrain. Clouds move slower than terrain. Sometimes birds fly over. Pretty stuff :)
         updateClouds(deltaTime);
         updateTrees(deltaTime);
     }
 
     private void updateClouds(float deltaTime) {
-        if (Cloud.shouldAppear(deltaTime)){
+        if (appearingSpritePool.timer.cloudShouldAppear(deltaTime)){
             try {
                 appearingSpritePool.useCloud();
             } catch (IndexOutOfBoundsException e) {
@@ -38,7 +39,7 @@ public class Background {
     }
 
     private void updateTrees(final float deltaTime) {
-        if (Tree.shouldAppear(deltaTime)) {
+        if (appearingSpritePool.timer.treeShouldAppear(deltaTime)) {
             try {
                 appearingSpritePool.useTree();
             } catch (IndexOutOfBoundsException e) {
@@ -56,7 +57,6 @@ public class Background {
 
 
     public void draw(Graphics g) {
-        // TODO {Graphics] Randomise the terrain. Clouds move slower than terrain. Sometimes birds fly over. Pretty stuff :)
         drawSky(g);
         drawGrass(g);
         drawClouds(g);
@@ -71,15 +71,15 @@ public class Background {
         g.drawRectVerticalGradient(0, Conversion.safeLongToInt(round(g.getHeight() * 0.7)), g.getWidth(), g.getHeight(), Color.GREEN, Color.WHITE);
     }
 
-    private void drawTrees(Graphics g) {
-        for (Tree tree : appearingSpritePool.getTrees()) {
-            tree.draw(g);
-        }
-    }
-
     private void drawClouds(Graphics g) {
         for (Cloud cloud : appearingSpritePool.getClouds()) {
             cloud.draw(g);
+        }
+    }
+
+    private void drawTrees(Graphics g) {
+        for (Tree tree : appearingSpritePool.getTrees()) {
+            tree.draw(g);
         }
     }
 }

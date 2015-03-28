@@ -82,7 +82,7 @@ public class GameScreen extends Screen {
     }
 
     private void updateEnemies(float deltaTime) {
-        if (Enemy.shouldAppear(deltaTime)) {
+        if (appearingSpritePool.timer.enemyShouldAppear(deltaTime)) {
             long time = System.currentTimeMillis();
             System.out.println("A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
             enemyTracker = time;

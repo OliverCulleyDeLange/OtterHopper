@@ -17,7 +17,7 @@ public class AppearingSpritePool {
     public int screenWidth;
     public int screenHeight;
 
-    private static final int MAXIMUM_TREES = 10;
+    private static final int MAXIMUM_TREES = 20;
     private static final double LOWER_TREE_LIMIT = 0.4;
     private static final double UPPER_TREE_LIMIT = 0.6;
 
@@ -30,6 +30,8 @@ public class AppearingSpritePool {
     private SpritePool<Tree> treePool;
     private SpritePool<Enemy> enemyPool;
     private SpritePool<Cloud> cloudPool;
+
+    public SpriteTimer timer;
 
     public AppearingSpritePool(Graphics graphics) {
         this.graphics = graphics;
@@ -48,6 +50,8 @@ public class AppearingSpritePool {
         ArrayList<Cloud> clouds = new ArrayList<>();
         for (int i = 0; i < MAXIMUM_CLOUDS; i++) clouds.add(new Cloud(screenWidth, 0, random.nextInt(250) + 100, random.nextInt(150) + 100));
         cloudPool = new SpritePool(clouds);
+
+        this.timer = new SpriteTimer(trees,enemies,clouds);
     }
 
     public Tree useTree() throws IndexOutOfBoundsException {

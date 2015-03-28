@@ -7,18 +7,10 @@ package uk.co.oliverdelange.otterhopper.sprites;
 import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 
-import java.util.Random;
-
-public class Enemy extends Sprite {
+public class Enemy extends AppearingSprite {
 
     private boolean countedForScore;
     private int xAxisVelocity = -8;
-
-    private static long lowMillisecondGap = 1000;
-    private static float randomMultiplier;
-    private static long lastAppeared;
-
-    private static Random random = new Random();
 
     public Enemy(int x, int y, int w, int h) {
         super(x, y, w, h);
@@ -26,19 +18,6 @@ public class Enemy extends Sprite {
 
     public void move(float deltaTime) {
         this.moveAlongXAxis(xAxisVelocity, deltaTime);
-    }
-
-    public static boolean shouldAppear(float deltaTime) {
-        long time = System.currentTimeMillis(); //1000 millis to a second
-
-        if ((time - lastAppeared) > lowMillisecondGap * randomMultiplier) {
-            lastAppeared = time;
-            randomMultiplier = 1 + random.nextFloat();
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public void draw(Graphics g) {
