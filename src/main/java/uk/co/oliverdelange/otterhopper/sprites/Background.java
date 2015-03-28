@@ -16,7 +16,7 @@ public class Background {
     }
 
     public void update(float deltaTime) {
-        // TODO {Graphics] Randomise the terrain. Clouds move slower than terrain. Sometimes birds fly over. Pretty stuff :)
+        // TODO {Graphics] Sometimes birds fly over. Pretty stuff :)
         updateClouds(deltaTime);
         updateTrees(deltaTime);
     }

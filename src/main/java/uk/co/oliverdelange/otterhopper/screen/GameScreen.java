@@ -2,14 +2,17 @@ package uk.co.oliverdelange.otterhopper.screen;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.R;
 import uk.co.oliverdelange.otterhopper.framework.AndroidGame;
 import uk.co.oliverdelange.otterhopper.framework.Graphics;
 import uk.co.oliverdelange.otterhopper.framework.Screen;
-import uk.co.oliverdelange.otterhopper.sprites.*;
+import uk.co.oliverdelange.otterhopper.sprites.AppearingSpritePool;
+import uk.co.oliverdelange.otterhopper.sprites.Background;
+import uk.co.oliverdelange.otterhopper.sprites.Enemy;
+import uk.co.oliverdelange.otterhopper.sprites.Otter;
 
 import java.util.List;
 
@@ -47,10 +50,7 @@ public class GameScreen extends Screen {
         background = new Background(appearingSpritePool);
 
         paint = new Paint();
-        paint.setTextSize(30);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setAntiAlias(true);
-        paint.setColor(Color.WHITE);
+        paint.setTypeface(Typeface.createFromAsset(game.getAssets(), "fonts/Lobster_1.3.otf"));
     }
 
     @Override
@@ -150,22 +150,22 @@ public class GameScreen extends Screen {
     }
 
     private void drawReadyUI(Graphics g) {
-        g.drawString("Tap to begin. Then tap to jump.", 640, 300, paint);
-        g.drawString("High score:" + highScore, 640, 200, paint);
+        g.drawString("Tap to begin. Then tap to jump.", 20, 70, paint);
+        g.drawString("High score:" + highScore, 20, 200, paint);
 
     }
 
     private void drawRunningUI(Graphics g) {
-        g.drawString("Score: " + score, 640, 300, paint);
+        g.drawString("Score: " + score, 20, 70, paint);
     }
 
     private void drawPausedUI(Graphics g) {
         g.drawString("Tap to Resume.",
-                640, 300, paint);
+                20, 200, paint);
     }
 
     private void drawGameOverUI(Graphics g) {
-        g.drawString("GAME OVER.", 640, 300, paint);
+        g.drawString("GAME OVER.", 20, 70, paint);
     }
 
     private void drawEnemies(Graphics g) {

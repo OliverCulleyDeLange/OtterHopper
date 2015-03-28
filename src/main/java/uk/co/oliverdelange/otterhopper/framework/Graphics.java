@@ -110,7 +110,9 @@ public class Graphics {
 
     public void drawString(String text, int x, int y, Paint paint){
         paint.setTextSize(75f);
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.rgb(174, 164, 164));
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setAntiAlias(true);
         canvas.drawText(text, x, y, paint);
     }
 
