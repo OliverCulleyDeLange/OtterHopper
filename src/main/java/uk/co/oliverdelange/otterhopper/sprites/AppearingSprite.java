@@ -3,7 +3,7 @@ package uk.co.oliverdelange.otterhopper.sprites;
 import java.util.Random;
 
 public abstract class AppearingSprite extends Sprite {
-    private static Random random = new Random();
+    protected static Random random = new Random();
 
     private long lowMillisecondGap = 1000;
     private float randomMultiplier;

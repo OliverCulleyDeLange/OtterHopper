@@ -13,8 +13,8 @@ public class Assets {
     // TODO - [Acheivements] (Maybe) More funky trees appear as you acheive too.
 
     public static AndroidImage tree;
-    public static AndroidImage background;
     public static AndroidImage enemy;
+    public static AndroidImage weather;
     public static AndroidImage otter;
 
 }

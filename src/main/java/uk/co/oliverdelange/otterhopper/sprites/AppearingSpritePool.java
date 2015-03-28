@@ -48,7 +48,7 @@ public class AppearingSpritePool {
         enemyPool = new SpritePool(enemies);
 
         ArrayList<Cloud> clouds = new ArrayList<>();
-        for (int i = 0; i < MAXIMUM_CLOUDS; i++) clouds.add(new Cloud(screenWidth, 0, random.nextInt(250) + 100, random.nextInt(150) + 100));
+        for (int i = 0; i < MAXIMUM_CLOUDS; i++) clouds.add(new Cloud(screenWidth, 0, 200, 200));
         cloudPool = new SpritePool(clouds);
 
         this.timer = new SpriteTimer(trees,enemies,clouds);
