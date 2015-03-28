@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import uk.co.oliverdelange.otterhopper.Assets;
 import uk.co.oliverdelange.otterhopper.R;
 import uk.co.oliverdelange.otterhopper.framework.AndroidGame;
@@ -84,7 +85,7 @@ public class GameScreen extends Screen {
     private void updateEnemies(float deltaTime) {
         if (appearingSpritePool.timer.enemyShouldAppear(deltaTime)) {
             long time = System.currentTimeMillis();
-            System.out.println("A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
+            Log.i("Sprites", "A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
             enemyTracker = time;
             appearingSpritePool.useEnemy();
         }
@@ -132,7 +133,7 @@ public class GameScreen extends Screen {
     @Override
     public void paint() {
         Graphics g = game.getGraphics();
-        g.drawARGB(255, 0, 0, 255); //wipe scren and draw blue
+//        g.drawARGB(255, 0, 0, 255); //wipe scren and draw blue
 
         background.draw(g);
         drawEnemies(g);

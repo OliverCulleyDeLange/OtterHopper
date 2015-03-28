@@ -3,6 +3,7 @@ package uk.co.oliverdelange.otterhopper.framework;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -18,7 +19,6 @@ public class AndroidView extends SurfaceView implements Runnable {
         this.game = game;
         this.framebuffer = framebuffer;
         this.holder = getHolder();
-
     }
 
     public void resume() {
@@ -32,22 +32,23 @@ public class AndroidView extends SurfaceView implements Runnable {
         Rect dstRect = new Rect();
         long startTime = System.nanoTime();
         while(running) {
-            if(!holder.getSurface().isValid())
+            if(!holder.getSurface().isValid()) {
+//                Log.e("GameState", "Surface isn't valid");
                 continue;
-
+            }
 
             float deltaTime = (System.nanoTime() - startTime) / 10000000.000f;
             startTime = System.nanoTime();
 
-            if (deltaTime > 3.15){
-                deltaTime = (float) 3.15;
+            if (deltaTime > 5){
+                Log.d("GameState", "deltaTime was " + deltaTime);
+                deltaTime = (float) 5;
+            } else {
+//                Log.d("GameState","deltaTime was " + deltaTime);
             }
-
 
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().paint();
-
-
 
             Canvas canvas = holder.lockCanvas();
             canvas.getClipBounds(dstRect);
