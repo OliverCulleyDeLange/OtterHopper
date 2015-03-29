@@ -12,12 +12,17 @@ import static java.lang.Math.round;
 public class Otter extends Sprite {
 
     private boolean hopping = false;
+    private boolean falling;
+    private boolean fallen;
 
     private float yAxisVelocity = 0;
     private float maximumYAxisVelocity = 2f;
     private float minimumYAxisVelocity = -4f;
 
     private int groundYPosition;
+    private int groundXPosition;
+    private int XPosition;
+    private int angle = 0;
 
     private int animationFrame = 0;
     private int spritesOnMap = 6;
@@ -32,6 +37,7 @@ public class Otter extends Sprite {
                 5
         );
         groundYPosition = (int) round(graphics.getHeight() * 0.8);
+        groundXPosition = graphics.getWidth() / 5;
     }
 
     public void move(float delta, List<AndroidInput.TouchEvent> touchEvents) {
@@ -43,7 +49,17 @@ public class Otter extends Sprite {
         if (this.hopping) {
             applyGravity(delta);
         }
-        updateAnimation(delta);
+        if (falling&&!fallen) {
+            if (angle < 180) {
+                angle = angle + 15;
+                setNewXPosition(getXPosition() + 5);
+            } else {
+                fallen = true;
+                falling = false;
+            }
+        } else if (!fallen) {
+            updateAnimation(delta);
+        }
     }
 
     public void hop() {
@@ -89,11 +105,21 @@ public class Otter extends Sprite {
                 getXPosition(), getYPosition(),
                 width, height,
                 width * animationFrame, 0,
-                width, height);
+                width, height,
+                angle);
     }
 
     @Override
     public void reset() {
+        fallen = false;
+        falling = false;
+        angle = 0;
+        setNewXPosition(groundXPosition);
+    }
 
+    public void fall() {
+        if (!fallen) {
+            falling=true;
+        }
     }
 }

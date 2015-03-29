@@ -137,7 +137,7 @@ public class Graphics {
         canvas.drawBitmap(image.bitmap, x, y, null);
     }
 
-    public void drawScaledImage(AndroidImage image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight){
+    public void drawScaledImage(AndroidImage image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight, int angle){
 
         srcRect.left = srcX;
         srcRect.top = srcY;
@@ -149,10 +149,10 @@ public class Graphics {
         dstRect.right = x + width;
         dstRect.bottom = y + height;
 
-//        paint.setColor(Color.BLUE);
-//        canvas.drawRectVerticalGradient(dstRect,paint);
-
+        canvas.save();
+        canvas.rotate(angle, x + (width/2), y + (height/2));
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
+        canvas.restore();
     }
 
     public int getWidth() {

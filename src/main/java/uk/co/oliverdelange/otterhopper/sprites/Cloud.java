@@ -25,7 +25,8 @@ public class Cloud extends AppearingSprite{
                 getXPosition(), getYPosition(),
                 width, height,
                 width * animationFrame, 0,
-                width, height);
+                width, height,
+                0);
     }
 
 

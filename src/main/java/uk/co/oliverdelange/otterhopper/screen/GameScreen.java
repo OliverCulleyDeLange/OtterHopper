@@ -65,7 +65,7 @@ public class GameScreen extends Screen {
         if (state == GameState.Paused)
             updatePaused(touchEvents);
         if (state == GameState.GameOver)
-            updateGameOver(touchEvents);
+            updateGameOver(touchEvents, deltaTime);
     }
 
     private void updateReady(List<TouchEvent> touchEvents, float deltaTime) {
@@ -83,12 +83,11 @@ public class GameScreen extends Screen {
     }
 
     private void updateEnemies(float deltaTime) {
-        if (appearingSpritePool.timer.enemyShouldAppear(deltaTime)) {
-            long time = System.currentTimeMillis();
-            Log.i("Sprites", "A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
-            enemyTracker = time;
-            appearingSpritePool.useEnemy();
-        }
+        makeEnemiesAppear(deltaTime);
+        moveEnemies(deltaTime);
+    }
+
+    private void moveEnemies(float deltaTime) {
         for (Enemy enemy : appearingSpritePool.getEnemies()) {
             enemy.move(deltaTime);
             if (enemy.boxCollidesWith(otter))
@@ -104,6 +103,15 @@ public class GameScreen extends Screen {
         }
     }
 
+    private void makeEnemiesAppear(float deltaTime) {
+        if (appearingSpritePool.timer.enemyShouldAppear(deltaTime)) {
+            long time = System.currentTimeMillis();
+            Log.i("Sprites", "A wild clefairy appeared after " + (time - enemyTracker) + " milliseconds!");
+            enemyTracker = time;
+            appearingSpritePool.useEnemy();
+        }
+    }
+
     private void updatePaused(List<TouchEvent> touchEvents) {
         for (int i = 0; i <  touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
@@ -113,7 +121,11 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateGameOver(List<TouchEvent> touchEvents) {
+    private void updateGameOver(List<TouchEvent> touchEvents, float deltaTime) {
+        otter.fall();
+        otter.move(deltaTime, touchEvents);
+        moveEnemies(deltaTime);
+        background.update(deltaTime);
         for (int i = 0; i < touchEvents.size(); i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_UP) {
@@ -125,6 +137,7 @@ public class GameScreen extends Screen {
                 }
                 score = 0;
                 appearingSpritePool.resetEnemies();
+                otter.reset();
                 state = GameState.Ready;
             }
         }
